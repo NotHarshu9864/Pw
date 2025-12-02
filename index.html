@@ -4,247 +4,151 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuickToppers - Live</title>
+
 <style>
-/* ——— (Your whole CSS same kept, no changes) ——— */
+/* ——— GLOBAL ——— */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 body{background:#0a0a0a;color:#fff;overflow-x:hidden;}
-.header{position:sticky;top:0;background:#0f0f0f;z-index:999;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1a1a1a;}
-.logo{font-size:2.3rem;font-weight:900;background:linear-gradient(120deg,#ff003c,#ff6b9d);-webkit-background-clip:text;color:transparent;}
+
+/* ——— HEADER ——— */
+.header{
+    position:sticky;top:0;background:#0f0f0f;z-index:999;
+    padding:1rem 1.5rem;display:flex;justify-content:space-between;
+    align-items:center;border-bottom:2px solid #1a1a1a;
+}
+
+/* Cyan Logo */
+.logo{
+    font-size:2.3rem;font-weight:900;
+    background:linear-gradient(120deg,#00eaff,#00bcd4);
+    -webkit-background-clip:text;color:transparent;
+}
+
+/* ——— BELL ICON ——— */
 .bell-wrapper{position:relative;cursor:pointer;width:50px;height:50px;display:flex;align-items:center;justify-content:center;}
-.bell-svg{width:32px;height:32px;fill:#fff;transition:all 0.3s;}
-.bell-wrapper:hover .bell-svg{fill:#ff003c;transform:scale(1.1);}
-.badge{position:absolute;top:2px;right:2px;background:#ff003c;color:#fff;width:20px;height:20px;border-radius:50%;font-size:0.75rem;display:flex;align-items:center;justify-content:center;font-weight:bold;animation:pulse 2s infinite;box-shadow:0 0 15px rgba(255,0,60,0.6);}
+.bell-svg{width:32px;height:32px;fill:#fff;transition:0.3s;}
+.bell-wrapper:hover .bell-svg{fill:#00eaff;transform:scale(1.1);}
+
+/* Cyan Notification Badge */
+.badge{
+    position:absolute;top:2px;right:2px;background:#00eaff;color:#000;
+    width:20px;height:20px;border-radius:50%;font-size:0.75rem;
+    display:flex;align-items:center;justify-content:center;font-weight:bold;
+    animation:pulse 2s infinite;box-shadow:0 0 15px rgba(0,234,255,0.6);
+}
+
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 @keyframes ring{
-0% { transform: rotate(0); }
-10% { transform: rotate(15deg); }
-20% { transform: rotate(-10deg); }
-30% { transform: rotate(15deg); }
-40% { transform: rotate(-10deg); }
-50% { transform: rotate(10deg); }
-60% { transform: rotate(0); }
-100% { transform: rotate(0); }
+0%{transform:rotate(0);}10%{transform:rotate(15deg);}
+20%{transform:rotate(-10deg);}30%{transform:rotate(15deg);}
+40%{transform:rotate(-10deg);}50%{transform:rotate(10deg);}
+60%,100%{transform:rotate(0);}
 }
-.ringing{animation: ring 1s ease-in-out;}
-.notif-panel{position:fixed;top:68px;right:15px;width:380px;max-height:85vh;background:#111;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.8);border:1px solid #333;z-index:9999;display:none;transform:translateY(-20px);opacity:0;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);}
+
+.ringing{animation:ring 1s ease-in-out;}
+
+/* ——— NOTIFICATION PANEL ——— */
+.notif-panel{
+    position:fixed;top:68px;right:15px;width:380px;max-height:85vh;
+    background:#111;border-radius:18px;overflow:hidden;
+    border:1px solid #00eaff33;display:none;
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);transform:translateY(-20px);
+    opacity:0;transition:0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
 .notif-panel.show{display:block;transform:translateY(0);opacity:1;}
-.notif-header{padding:1.2rem;background:#1a1a1a;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;}
-.notif-header h3{font-size:1.2rem;font-weight:600;}
+
+.notif-header{
+    padding:1.2rem;background:#1a1a1a;border-bottom:1px solid #00eaff33;
+    display:flex;justify-content:space-between;align-items:center;
+}
+.notif-header h3{font-size:1.2rem;}
 .notif-close{cursor:pointer;font-size:1.8rem;color:#aaa;}
+
 .notif-body{max-height:65vh;overflow-y:auto;padding:0.8rem;}
-.notif-item{background:#1a1a1a;margin:0.8rem;border-radius:14px;padding:1rem;cursor:pointer;transition:0.3s;}
-.notif-item:hover{background:#222;}
-.notif-item strong{color:#ff003c;font-size:1rem;}
+.notif-item{
+    background:#1a1a1a;margin:0.8rem;border-radius:14px;padding:1rem;
+    cursor:pointer;transition:0.3s;border:1px solid #00eaff22;
+}
+.notif-item:hover{background:#1b1f22;border:1px solid #00eaff55;}
+
+.notif-item strong{color:#00eaff;font-size:1rem;}
 .notif-item p{font-size:0.92rem;color:#ddd;line-height:1.4;margin:6px 0;}
 .notif-time{color:#888;font-size:0.8rem;}
+
+/* ——— MAIN CONTENT ——— */
 .container{max-width:1400px;margin:0 auto;padding:1.5rem;}
+
+/* Tabs */
 .tabs{display:flex;justify-content:center;gap:1rem;margin:2rem 0;}
-.tab-btn{padding:0.9rem 2rem;background:#1a1a1a;border-radius:50px;border:none;color:#ccc;cursor:pointer;font-weight:600;transition:0.3s;}
-.tab-btn.active{background:#ff003c;color:#fff;box-shadow:0 8px 25px rgba(255,0,60,0.4);}
+
+.tab-btn{
+    padding:0.9rem 2rem;background:#1a1a1a;border-radius:50px;
+    border:1px solid #00eaff33;color:#ccc;cursor:pointer;font-weight:600;
+    transition:0.3s;
+}
+.tab-btn.active{
+    background:#00eaff;color:#000;border-color:#00eaff;
+    box-shadow:0 0 20px #00eaff66;
+}
+
+/* Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem;}
-.card{background:#111;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 10px 30px rgba(0,0,0,0.6);transition:0.4s;}
-.card:hover{transform:translateY(-12px);box-shadow:0 25px 50px rgba(255,0,60,0.25);}
+
+/* Cards */
+.card{
+    background:#111;border-radius:20px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.6);transition:0.4s;
+    border:1px solid #00eaff22;
+}
+.card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 25px 50px rgba(0,234,255,0.25);
+}
+
+/* Thumbnail */
 .thumb img{width:100%;height:220px;object-fit:cover;}
-.live-tag{position:absolute;top:12px;left:12px;background:#ff003c;color:#fff;padding:6px 14px;border-radius:25px;font-size:0.8rem;font-weight:bold;z-index:2;box-shadow:0 4px 15px rgba(255,0,60,0.4);}
+
+/* LIVE TAG — cyan */
+.live-tag{
+    position:absolute;top:12px;left:12px;background:#00eaff;color:#000;
+    padding:6px 14px;border-radius:25px;font-size:0.8rem;font-weight:bold;
+    box-shadow:0 4px 15px rgba(0,234,255,0.4);
+}
+
+/* Info */
 .info{padding:1.3rem;}
-.title{font-size:1.18rem;font-weight:700;line-height:1.35;color:#fff;margin-bottom:8px;}
+.title{font-size:1.18rem;font-weight:700;margin-bottom:8px;}
 .batch{color:#aaa;font-size:0.95rem;margin-bottom:1rem;}
-.watch-btn{width:100%;padding:1rem;background:#ff003c;border:none;border-radius:50px;color:#fff;font-weight:bold;font-size:1.05rem;cursor:pointer;transition:0.3s;}
-.watch-btn:hover{background:#ff3366;transform:scale(1.03);}
+
+/* Watch button */
+.watch-btn{
+    width:100%;padding:1rem;background:#00eaff;border:none;border-radius:50px;
+    color:#000;font-weight:bold;font-size:1.05rem;cursor:pointer;transition:0.3s;
+}
+.watch-btn:hover{
+    background:#00c4d6;
+    transform:scale(1.03);
+}
+
+/* Modal */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.98);z-index:9999;align-items:center;justify-content:center;padding:1rem;}
 .modal.show{display:flex;}
-iframe{width:100%;max-width:1100px;height:80vh;border-radius:18px;box-shadow:0 20px 60px rgba(255,0,60,0.3);}
-.close{position:absolute;top:20px;right:30px;font-size:50px;cursor:pointer;color:#fff;z-index:10000;}
+
+iframe{
+    width:100%;max-width:1100px;height:80vh;border-radius:18px;
+    box-shadow:0 20px 60px rgba(0,234,255,0.3);
+}
+
+.close{
+    position:absolute;top:20px;right:30px;font-size:50px;color:#fff;
+    cursor:pointer;z-index:10000;
+}
+
 @media(max-width:768px){
-.notif-panel{left:10px;right:10px;width:auto;}
-.grid{grid-template-columns:1fr;}
+    .notif-panel{left:10px;right:10px;width:auto;}
+    .grid{grid-template-columns:1fr;}
 }
 </style>
+
 </head>
 <body>
-
-<div class="header">
-    <div class="logo">QuickToppers</div>
-    <div class="bell-wrapper" onclick="toggleNotif()">
-        <svg class="bell-svg" viewBox="0 0 24 24">
-            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
-        </svg>
-        <div class="badge" id="badge">0</div>
-    </div>
-</div>
-
-<div class="container">
-
-    <!-- ************* LIVE TAB ************* -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="tab('live')">Live Now</button>
-        <button class="tab-btn" onclick="tab('up')">Upcoming</button>
-        <button class="tab-btn" onclick="tab('comp')">Recorded</button>
-    </div>
-
-    <div id="live" class="tab">
-        <div class="grid">
-
-            <!-- ⭐ NEW LIVE CLASS 1 -->
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/2vjPBr2wg_0/hqdefault.jpg'>
-                    <div class='live-tag'>LIVE NOW</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Live Physics Doubt Session - Class 11/12</div>
-                    <div class='batch'>Science - Physics</div>
-                    <button class='watch-btn' onclick="play('2vjPBr2wg_0')">Watch Now</button>
-                </div>
-            </div>
-
-            <!-- ⭐ NEW LIVE CLASS 2 -->
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/5qap5aO4i9A/hqdefault.jpg'>
-                    <div class='live-tag'>LIVE NOW</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Live Maths Rapid Revision | Class 10 & 11</div>
-                    <div class='batch'>Maths | All Boards</div>
-                    <button class='watch-btn' onclick="play('5qap5aO4i9A')">Watch Now</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- ************* UPCOMING ************* -->
-    <div id="up" class="tab" style="display:none">
-        <div style='text-align:center;padding:5rem;color:#666;font-size:1.3rem;'>No classes available</div>
-    </div>
-
-    <!-- ************* RECORDED TAB ************* -->
-    <div id="comp" class="tab" style="display:none">
-        <div class='grid'>
-
-            <!-- ⭐ OLD LIVE → NOW RECORDED -->
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/TWkndUZ8jnc/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Nirbhay 11th Chemistry - Lecture 1</div>
-                    <div class='batch'>Science 11th</div>
-                    <button class='watch-btn' onclick="play('TWkndUZ8jnc')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/mjz9g3yqMOk/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Accounting Equations - Class 11</div>
-                    <div class='batch'>Commerce 11th</div>
-                    <button class='watch-btn' onclick="play('mjz9g3yqMOk')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/Df36zpeo-lw/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Abhay 9th SST - People as Resource</div>
-                    <div class='batch'>Class 9th</div>
-                    <button class='watch-btn' onclick="play('Df36zpeo-lw')">Watch Now</button>
-                </div>
-            </div>
-
-            <!-- ⭐ OLD RECORDED (Already Present) -->
-            <!-- (Your existing 5 recorded cards below as-is) -->
-            
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/J9QYAC-NS-U/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Nature and Purpose of Business</div>
-                    <div class='batch'>Commerce 11th</div>
-                    <button class='watch-btn' onclick="play('J9QYAC-NS-U')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/2TiuasNA4wU/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Sets - Lecture 1</div>
-                    <div class='batch'>Science 11th</div>
-                    <button class='watch-btn' onclick="play('2TiuasNA4wU')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/k3wEBNT72iE/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>UP Board Class 10 Science - Lecture 1</div>
-                    <div class='batch'>UP Board 10th</div>
-                    <button class='watch-btn' onclick="play('k3wEBNT72iE')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/QflnC_31s6s/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Real Numbers - Lecture 1</div>
-                    <div class='batch'>UP Board 10th</div>
-                    <button class='watch-btn' onclick="play('QflnC_31s6s')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class='card'>
-                <div class='thumb'>
-                    <img src='https://i.ytimg.com/vi/CTFuXmQsVdA/hqdefault.jpg'>
-                    <div class='live-tag'>RECORDED</div>
-                </div>
-                <div class='info'>
-                    <div class='title'>Life Processes - Lecture 1</div>
-                    <div class='batch'>Class 10</div>
-                    <button class='watch-btn' onclick="play('CTFuXmQsVdA')">Watch Now</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-
-<script>
-function tab(x){
-    document.querySelectorAll('.tab').forEach(e=>e.style.display='none');
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById(x).style.display='block';
-    event.target.classList.add('active');
-}
-function play(id){
-    document.getElementById('player').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-    document.getElementById('modal').classList.add('show');
-}
-function closeModal(e){
-    if(e && e.target !== e.currentTarget) return;
-    document.getElementById('modal').classList.remove('show');
-    document.getElementById('player').src = '';
-}
-</script>
-
-</body>
-</html>
