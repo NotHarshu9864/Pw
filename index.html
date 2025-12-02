@@ -169,64 +169,17 @@ iframe{
 
     <!-- LIVE TAB -->
     <div id="live" class="tab">
-        <div class="grid">
-
-            <div class="card">
-                <div class="thumb">
-                    <img src="https://i.ytimg.com/vi/2vjPBr2wg_0/hqdefault.jpg">
-                    <div class="live-tag">LIVE NOW</div>
-                </div>
-                <div class="info">
-                    <div class="title">Live Physics Doubt Session - Class 11/12</div>
-                    <div class="batch">Science - Physics</div>
-                    <button class="watch-btn" onclick="play('2vjPBr2wg_0')">Watch Now</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="thumb">
-                    <img src="https://i.ytimg.com/vi/5qap5aO4i9A/hqdefault.jpg">
-                    <div class="live-tag">LIVE NOW</div>
-                </div>
-                <div class="info">
-                    <div class="title">Live Maths Rapid Revision | Class 10 & 11</div>
-                    <div class="batch">Maths | All Boards</div>
-                    <button class="watch-btn" onclick="play('5qap5aO4i9A')">Watch Now</button>
-                </div>
-            </div>
-
-        </div>
+        <div class="grid" id="liveGrid"></div>
     </div>
 
     <!-- UPCOMING -->
     <div id="up" class="tab" style="display:none">
-        <div style="text-align:center;padding:5rem;color:#666;font-size:1.3rem;">
-            No classes available
-        </div>
+        <div class="grid" id="upGrid"></div>
     </div>
 
     <!-- RECORDED TAB -->
     <div id="comp" class="tab" style="display:none">
-        <div class="grid">
-
-            <!-- Same recorded cards kept, only color updated -->
-            <!-- I kept everything EXACT same just changing design -->
-
-            <div class="card">
-                <div class="thumb">
-                    <img src="https://i.ytimg.com/vi/TWkndUZ8jnc/hqdefault.jpg">
-                    <div class="live-tag">RECORDED</div>
-                </div>
-                <div class="info">
-                    <div class="title">Nirbhay 11th Chemistry - Lecture 1</div>
-                    <div class="batch">Science 11th</div>
-                    <button class="watch-btn" onclick="play('TWkndUZ8jnc')">Watch Now</button>
-                </div>
-            </div>
-
-            <!-- (Other cards untouched, same structure) -->
-
-        </div>
+        <div class="grid" id="recGrid"></div>
     </div>
 
 </div>
@@ -253,6 +206,55 @@ function closeModal(e){
     document.getElementById('modal').classList.remove('show');
     document.getElementById('player').src='';
 }
+
+/* ============================================
+   JSON CARD TEMPLATE (ALL SAME UI)
+============================================ */
+function makeCard(item, type) {
+    return `
+    <div class="card">
+        <div class="thumb">
+            <img src="${item.thumb}">
+            <div class="live-tag">${type}</div>
+        </div>
+        <div class="info">
+            <div class="title">${item.title}</div>
+            <div class="batch">${item.batch}</div>
+            <button class="watch-btn" onclick="play('${item.id}')">Watch Now</button>
+        </div>
+    </div>`;
+}
+
+/* ============================================
+   LOAD JSON FUNCTION
+============================================ */
+async function loadJSON(url, gridID, tagName) {
+    try {
+        let grid = document.getElementById(gridID);
+        grid.innerHTML = `<div style="color:#777;text-align:center;padding:2rem">Loading...</div>`;
+
+        let res = await fetch(url);
+        let data = await res.json();
+
+        grid.innerHTML = "";
+
+        data.forEach(item => {
+            grid.innerHTML += makeCard(item, tagName);
+        });
+
+    } catch {
+        document.getElementById(gridID).innerHTML =
+            `<div style="color:#777;text-align:center;padding:2rem">Failed to load data</div>`;
+    }
+}
+
+/* ============================================
+   CALLING JSON FILES
+============================================ */
+loadJSON("live.json", "liveGrid", "LIVE NOW");
+loadJSON("upcoming.json", "upGrid", "UPCOMING");
+loadJSON("recorded.json", "recGrid", "RECORDED");
+
 </script>
 
 </body>
