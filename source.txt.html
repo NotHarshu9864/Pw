@@ -1,0 +1,852 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔴 RolexCoderZ Live</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>(function(w,d,s,id){if(typeof(w.webpushr)!=='undefined') return;w.webpushr={},w.webpushr.q=[],w.webpushr.on=function(event,handler){w.webpushr.q.push({event:event,handler:handler})};var js,fjs=d.getElementsByTagName(s)[0];js=d.createElement(s);js.id=id;js.async=1;js.src="https://cdn.webpushr.com/app.min.js";fjs.parentNode.insertBefore(js,fjs);}(window,document,'script','webpushr-jssdk'));webpushr('setup',{'key':'0b018eaec408b98887533a78a856a870'});</script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Inter',sans-serif;background:#0d0d0d;color:#fff;min-height:100vh;overflow-x:hidden;}
+        body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 25% 25%,rgba(255,0,60,0.15) 0%,transparent 50%),radial-gradient(circle at 75% 75%,rgba(0,150,255,0.15) 0%,transparent 50%),linear-gradient(135deg,#0d0d0d 0%,#1a0f1a 50%,#0f0f1a 100%);z-index:-2;}
+        .streaming-bg_21911911{position:fixed;top:0;left:0;width:100%;height:100%;opacity:0.03;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,#fff 2px,#fff 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,#fff 2px,#fff 4px);animation:scanlines 8s linear infinite;z-index:-1;}
+        @keyframes scanlines{0%{transform:translateY(0);}100%{transform:translateY(20px);}}
+        .header-container_7215d692{background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:1000;}
+        .header-content_902861d6{max-width:1400px;margin:0 auto;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+        .logo-section_9249b10f{display:flex;align-items:center;gap:1rem;}
+        .logo-img_0932ffd3{width:45px;height:45px;border-radius:10px;box-shadow:0 0 20px rgba(255,0,60,0.3);}
+        .logo-text_04ba8cc1{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,#ff003c,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .notification-area_c935fc0c{position:relative;}
+        .notification-bell_832f9f03{position:relative;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:45px;height:45px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;}
+        .notification-bell_832f9f03:hover{background:rgba(255,0,60,0.2);border-color:#ff003c;transform:scale(1.05);}
+        .bell-icon_8cc0c9ba{font-size:1.3rem;}
+        .notification-badge_6f41d514{position:absolute;top:-5px;right:-5px;background:#ff003c;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;animation:pulse 2s infinite;}
+        .notification-panel_bf464bda{position:absolute;top:calc(100% + 15px);right:0;width:380px;max-height:500px;background:rgba(20,20,30,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:15px;backdrop-filter:blur(20px);box-shadow:0 20px 40px rgba(0,0,0,0.5);display:none;overflow:hidden;z-index:1001;}
+        .notification-panel_bf464bda.active{display:block;animation:slideDown 0.3s ease;}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+        .notification-header_ac00cdce{padding:1.2rem;background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;}
+        .notification-title_2f5a4459{font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;}
+        .notification-list_4cad8c19{max-height:400px;overflow-y:auto;}
+        .notification-item_59dcbdbb{padding:1rem 1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.3s ease;cursor:pointer;}
+        .notification-item_59dcbdbb:hover{background:rgba(255,255,255,0.05);}
+        .notification-item-header_f6634255{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;}
+        .notification-icon_26050c9f{width:35px;height:35px;border-radius:8px;}
+        .notification-content_df215dd2{flex:1;}
+        .notification-item-title_80273ff0{font-weight:600;color:#ff003c;font-size:0.95rem;margin-bottom:0.3rem;}
+        .notification-message_3045395b{font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.4;}
+        .notification-time_627d47da{font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:0.5rem;}
+        .mark-all-read_5bc83827{font-size:0.85rem;color:#00d4ff;cursor:pointer;transition:color 0.3s ease;}
+        .mark-all-read_5bc83827:hover{color:#ff003c;}
+        .notification-list_4cad8c19::-webkit-scrollbar{width:6px;}
+        .notification-list_4cad8c19::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);}
+        .notification-list_4cad8c19::-webkit-scrollbar-thumb{background:rgba(255,0,60,0.5);border-radius:3px;}
+        .notification-list_4cad8c19::-webkit-scrollbar-thumb:hover{background:rgba(255,0,60,0.7);}
+        .container_d208d16e{max-width:1400px;margin:0 auto;padding:2rem;}
+        .live-header_ca98d713{text-align:center;margin-bottom:3rem;position:relative;}
+        .live-indicator_98932b72{display:inline-flex;align-items:center;background:rgba(255,0,60,0.2);border:2px solid #ff003c;border-radius:50px;padding:0.6rem 1.5rem;margin-bottom:1.5rem;backdrop-filter:blur(15px);animation:livePulse 2s infinite;}
+        .live-dot_4e103a66{width:10px;height:10px;background:#ff003c;border-radius:50%;margin-right:0.8rem;box-shadow:0 0 15px rgba(255,0,60,0.8);animation:blink 1s infinite alternate;}
+        .main-title_126ff99c{font-family:'JetBrains Mono',monospace;font-size:3.5rem;font-weight:700;background:linear-gradient(135deg,#ff003c 0%,#ff4d6d 30%,#00d4ff 70%,#4dabff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem;text-shadow:0 0 30px rgba(255,0,60,0.3);}
+        .stream-subtitle_1369e396{font-size:1.3rem;color:rgba(255,255,255,0.8);margin-bottom:2rem;font-weight:500;}
+        .stream-stats_ab1883bf{display:flex;justify-content:center;gap:2rem;margin-bottom:3rem;flex-wrap:wrap;}
+        .stat-item_818b640c{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:15px;padding:1rem 1.5rem;backdrop-filter:blur(10px);text-align:center;}
+        .stat-number_dad83f45{font-size:1.8rem;font-weight:700;font-family:'JetBrains Mono',monospace;}
+        .stat-label_3668e7da{font-size:0.85rem;color:rgba(255,255,255,0.7);margin-top:0.3rem;}
+        .live-tabs_a38411bd{display:flex;justify-content:center;margin-bottom:3rem;background:rgba(255,255,255,0.05);border-radius:25px;padding:8px;backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.1);overflow-x:auto;}
+        .tab-btn_d5c8d8ec{background:none;border:none;color:rgba(255,255,255,0.7);padding:1rem 2rem;border-radius:20px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s ease;white-space:nowrap;position:relative;overflow:hidden;}
+        .tab-btn_d5c8d8ec.active{background:linear-gradient(135deg,#ff003c,#ff4d6d);color:white;box-shadow:0 0 25px rgba(255,0,60,0.4);}
+        .tab-btn_d5c8d8ec:hover:not(.active){background:rgba(255,255,255,0.1);color:white;}
+        .tab-content_e755a876{display:none;}
+        .tab-content_e755a876.active{display:block;animation:fadeIn 0.5s ease;}
+        .stream-grid_f7e01d75{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;margin-bottom:2rem;}
+        .stream-card_d4dc82bb{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:1.2rem;position:relative;backdrop-filter:blur(15px);transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);opacity:0;transform:translateY(30px);animation:slideUp 0.8s ease forwards;}
+        .stream-card_d4dc82bb:hover{transform:translateY(-8px) scale(1.02);border-color:rgba(255,0,60,0.3);box-shadow:0 20px 40px rgba(0,0,0,0.3);}
+        .live-card_96100dfe:hover{box-shadow:0 20px 40px rgba(255,0,60,0.25);}
+        .stream-badge_e3b130ad{position:absolute;top:-8px;right:15px;padding:0.4rem 1rem;border-radius:20px;font-size:0.75rem;font-weight:700;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:0.4rem;z-index:2;text-transform:uppercase;letter-spacing:0.5px;}
+        .live-badge-red_f750a038{background:linear-gradient(135deg,#ff003c,#ff4d6d);box-shadow:0 0 20px rgba(255,0,60,0.5);}
+        .live-badge-blue_9c47bca1{background:linear-gradient(135deg,#0066ff,#4d8cff);box-shadow:0 0 20px rgba(0,100,255,0.4);}
+        .live-badge-green_b501d6d8{background:linear-gradient(135deg,#00cc66,#4dff8c);box-shadow:0 0 20px rgba(0,200,100,0.4);}
+        .status-dot_48eaded3{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 2s infinite;}
+        .card-thumbnail_7a112a29{position:relative;border-radius:15px;overflow:hidden;height:180px;margin-bottom:1.2rem;}
+        .card-thumbnail_7a112a29 img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;}
+        .stream-card_d4dc82bb:hover .card-thumbnail_7a112a29 img{transform:scale(1.1);}
+        .stream-overlay_481330f3{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease;}
+        .stream-card_d4dc82bb:hover .stream-overlay_481330f3{opacity:1;}
+        .play-button_0b7d1f55{width:60px;height:60px;background:rgba(255,255,255,0.2);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transform:scale(0.8);transition:transform 0.3s ease;}
+        .stream-card_d4dc82bb:hover .play-button_0b7d1f55{transform:scale(1);}
+        .play-icon_cab3b206{font-size:1.5rem;}
+        .stream-info_0e48046f{text-align:center;}
+        .stream-title_1c746af1{font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+        .channel-name_83eb8be7{color:rgba(255,255,255,0.7);margin-bottom:1rem;font-size:0.9rem;}
+        .stream-btn_925db112{display:inline-block;padding:0.8rem 1.8rem;border-radius:25px;text-decoration:none;font-weight:600;font-size:0.95rem;transition:all 0.3s ease;position:relative;overflow:hidden;width:100%;text-align:center;border:none;cursor:pointer;}
+        .live-btn_d6df471b{background:linear-gradient(135deg,#ff003c,#ff4d6d);color:white;border:2px solid transparent;}
+        .live-btn_d6df471b:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(255,0,60,0.4);color:white;}
+        .upcoming-btn_3fc6e138{background:linear-gradient(135deg,#0066ff,#4d8cff);color:white;}
+        .upcoming-btn_3fc6e138:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,100,255,0.4);color:white;}
+        .completed-btn_eaeb75c4{background:linear-gradient(135deg,#00cc66,#4dff8c);color:white;}
+        .completed-btn_eaeb75c4:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,200,100,0.4);color:white;}
+        .btn-shine_6a9a7d81{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left 0.6s ease;}
+        .stream-btn_925db112:hover .btn-shine_6a9a7d81{left:100%;}
+        .no-content_6e5340d5{text-align:center;padding:3rem 2rem;background:rgba(255,255,255,0.03);border:2px dashed rgba(255,255,255,0.1);border-radius:20px;margin:2rem 0;}
+        .status-icon_5c919457{font-size:3rem;margin-bottom:1rem;}
+        .no-content_6e5340d5 h3{font-size:1.5rem;margin-bottom:0.8rem;color:rgba(255,255,255,0.9);}
+        .no-content_6e5340d5 p{color:rgba(255,255,255,0.6);font-size:1rem;}
+        .loading-overlay_8eeb3d3d{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity 0.5s ease;}
+        .loading-spinner_7f8ceb71{width:60px;height:60px;border:3px solid rgba(255,255,255,0.1);border-top:3px solid #ff003c;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1.5rem;}
+        .loading-text_89ffc39b{color:rgba(255,255,255,0.8);font-size:1.1rem;font-weight:500;}
+        .honeypot-form_1ae519e1{display:none;}
+        .honeypot-field_7024d8d1{position:absolute;opacity:0;pointer-events:none;}
+        .video-modal_af99cee1{display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,0.9);padding:20px;}
+        .modal-content_521f1d99{margin:auto;background:#1e1e1e;border-radius:15px;padding:20px;max-width:1200px;position:relative;box-shadow:0 0 40px rgba(255,0,60,0.2);}
+        .close-btn_3386117b{color:#fff;position:absolute;top:10px;right:20px;font-size:35px;font-weight:bold;cursor:pointer;transition:all 0.3s;}
+        .close-btn_3386117b:hover{color:#ff003c;transform:rotate(90deg);}
+        #videoPlayer{width:100%;height:auto;border-radius:10px;box-shadow:0 0 20px rgba(0,212,255,0.2);}
+        @keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,0,60,0.7);}50%{box-shadow:0 0 0 10px rgba(255,0,60,0);}}
+        @keyframes blink{0%{opacity:1;}100%{opacity:0.3;}}
+        @keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.2);opacity:0.7;}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes slideUp{to{opacity:1;transform:translateY(0);}}
+        @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+        @media (max-width:768px){
+            .header-content_902861d6{padding:1rem;}
+            .logo-text_04ba8cc1{font-size:1.2rem;}
+            .notification-panel_bf464bda{width:320px;right:-10px;}
+            .container_d208d16e{padding:1rem;}
+            .main-title_126ff99c{font-size:2.5rem;}
+            .stream-stats_ab1883bf{gap:1rem;}
+            .stat-item_818b640c{padding:0.8rem 1rem;}
+            .live-tabs_a38411bd{padding:6px;}
+            .tab-btn_d5c8d8ec{padding:0.8rem 1.2rem;font-size:0.9rem;}
+            .stream-grid_f7e01d75{grid-template-columns:1fr;gap:1.5rem;}
+            .stream-card_d4dc82bb{padding:1rem;}
+            .card-thumbnail_7a112a29{height:160px;}
+            .modal-content_521f1d99{padding:10px;}
+            .close-btn_3386117b{font-size:30px;top:5px;right:10px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="streaming-bg_21911911"></div>
+    <div class="loading-overlay_8eeb3d3d" id="loadingOverlay">
+        <div class="loading-spinner_7f8ceb71"></div>
+        <div class="loading-text_89ffc39b">Connecting to live streams...</div>
+    </div>
+    <header class="header-container_7215d692">
+        <div class="header-content_902861d6">
+            <div class="logo-section_9249b10f">
+                <img src="https://i.postimg.cc/KzTy05Wm/IMG-20250301-092318-614.jpg" alt="RolexCoderZ" class="logo-img_0932ffd3">
+                <span class="logo-text_04ba8cc1">RolexCoderZ</span>
+            </div>
+            <div class="notification-area_c935fc0c">
+                <div class="notification-bell_832f9f03" onclick="toggleNotifications()">
+                    <span class="bell-icon_8cc0c9ba">🔔</span>
+                    <span class="notification-badge_6f41d514" id="notificationCount">0</span>
+                </div>
+                <div class="notification-panel_bf464bda" id="notificationPanel">
+                    <div class="notification-header_ac00cdce">
+                        <div class="notification-title_2f5a4459">
+                            <span>🔔</span>
+                            <span>Notifications</span>
+                        </div>
+                        <span class="mark-all-read_5bc83827" onclick="markAllRead()">Mark all read</span>
+                    </div>
+                    <div class="notification-list_4cad8c19" id="notificationList"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container_d208d16e">
+        <form class="honeypot-form_1ae519e1" method="post">
+            <input type="text" name="honeypot_field" class="honeypot-field_7024d8d1" autocomplete="off">
+            <input type="hidden" name="hidden_field" value="trap">
+        </form>
+        <div class="live-header_ca98d713">
+            <div class="live-indicator_98932b72">
+                <div class="live-dot_4e103a66"></div>
+                <span>LIVE STREAMING PLATFORM</span>
+            </div>
+            <h1 class="main-title_126ff99c">RolexCoderZ Live</h1>
+            <p class="stream-subtitle_1369e396">Interactive Live Sessions • Real-time Learning</p>
+            <div class="stream-stats_ab1883bf">
+                <div class="stat-item_818b640c">
+                    <div class="stat-number_dad83f45" style="color:#ff003c;" id="liveCount">0</div>
+                    <div class="stat-label_3668e7da">Live Now</div>
+                </div>
+                <div class="stat-item_818b640c">
+                    <div class="stat-number_dad83f45" style="color:#0066ff;" id="upcomingCount">0</div>
+                    <div class="stat-label_3668e7da">Scheduled</div>
+                </div>
+                <div class="stat-item_818b640c">
+                    <div class="stat-number_dad83f45" style="color:#00cc66;" id="completedCount">0</div>
+                    <div class="stat-label_3668e7da">Recordings</div>
+                </div>
+            </div>
+        </div>
+        <div class="live-tabs_a38411bd">
+            <button class="tab-btn_d5c8d8ec active" onclick="switchTab('live')">🔴 Live Streams</button>
+            <button class="tab-btn_d5c8d8ec" onclick="switchTab('upcoming')">⏳ Upcoming Sessions</button>
+            <button class="tab-btn_d5c8d8ec" onclick="switchTab('completed')">📺 Stream Recordings</button>
+        </div>
+        <div id="live" class="tab-content_e755a876 active">
+            <div class='stream-grid_f7e01d75'>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/64568582410133_Science%20Stream.png' alt='Sets | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Sets | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('SUU5ICFS2H5g1vfni9wkS1ZpcHNFa0Z2bjNEVWRlaFVhakNlZTUwUDk1MHI4MU9yWmg5aE54Y1ZNYjVjY3ZZNEdoM1MxK3Z4aThMTFVBZ2VXKzBXcVdJOGJLbDc0QUxvL2FxSXN4b2Z4aWcvSkJ0a3d6V2VKU01yVnRFVnJiTDcwL2lTYUt4Y2pTT0gwVEVM')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0.15s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/44342832410137_Commerce%20Stream%20%285%29.png' alt='Nature and  Purpose of Business | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nature and  Purpose of Business | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Commerce11th - NIRBHAY	</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('O/UDgaiXCN8WBJwIUDHolDFjOEk1aGVCWldxcFhQVW84ZFBmL1c4WXdVcmE2MVpMTTRjc3FkT0hrYnZoSmFpeWNpamtaeHFXbjluUEN5ZjJCUHdqMlhjei9zeW9lc0JmR1dtOGlyRnBZK2xIbERvQWNLYVVhb3BpVHBOWEpyWUMxdDlzZi9zY1c5KzB4Ymhn')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0.3s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/5268062410164_Humanities%20Stream%20%288%29.png' alt='Writing and City Life | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Writing and City Life | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Humanities 11th  - NIRBHAY	</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('i1Rc2eUrJBuYqj7ZLWt+Y2ViU1A1UnhUS0lJdkMwN2Zoc0pSZjlhVCtuK0JkRDhxdkVQWGdlNjdjbDM1WnBEY1hQSS9hVE9XQWFhN05RYjROOHc0SHg3cFRoV0NHaUFaS2R6VDZkVHVkdDJscXhycVlzV2I4QjZoU0ZjUm13aGltYktQcGhmRWxOTjcrS0pq')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0.45s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/38274492410141_Science%20Stream%20%283%29.png' alt='Solution | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Solution | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science NIRBHAY Pro	</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('eQj/eXaOgArOyWIY1go60mNRMXF0WFN2Tk9yUldVVWFTankvVVpTY1pRTGpiYUJPOTBVc1FreDk0WEZHQzgyc1NWT2pFclg4MkJWa1BwQyt5ejdWMldjUVNWbWtTUEZPVW5XS3EyTlFreVZ2MkpIalFFZUEyMDYxeDgyRHlZSHg5MUs1TElzRUFUdlUxaHBZ')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0.6s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/46571792410187_UpBihar%20Stream%20%281%29.png' alt='रासायनिक अभिक्रियाएँ और समीकरण | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>रासायनिक अभिक्रियाएँ और समीकरण | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Bihar Board ABHAY 10th(हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('G1mczsaziN7DzCaAWsooOUpRbXhyTEtNMUg5elZzdHliOG16dWU3S09takFLYmFtcHhHbmRiSTZYdnlCUE9JS0o4UHdySkV3dFA2UTV3dktCcGMyYWo1d01VL2d0WS9DK2JmTDZJa2dXOXEyTmxPM2NnNmUrNjZmU2Vwajl1U3IxL285Z0RlOTJWRUFveXJH')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0.75s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/35722252410215_UpBihar%20Stream%20%282%29.png' alt='रासायनिक अभिक्रियाएँ और समीकरण | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>रासायनिक अभिक्रियाएँ और समीकरण | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ UP Board ABHAY 10th (हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('FuwqMmVCUCnvifOgMMlnqEhtMWVBa2VHWGhwdUVCMGNpR3ZkVXd0cU5KUUlpUk9iMU5xcGR6VC9qNjJhNkRKcjEwdGFVdmhHQ1FtbkNXRStxdHEyOUY2Ui9EUnFXVWlWeEVvcHY3Z3lpVk1KM3BPWnlMUU9rcXJUUFFuM3ZEeC9WdWFvTEdhcWhjOEkvQ05z')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb live-card_96100dfe' style='animation-delay: 0.9s'>
+            <div class='stream-badge_e3b130ad live-badge-red_f750a038'>
+                <div class='status-dot_48eaded3'></div>LIVE NOW
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/LDVXKYFunQA/hqdefault.jpg' alt='Abhay&#039;26 Batch 10th Maths - 1st FREE Class | Real Numbers - Lecture 1 | Check Desc.' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>🔴</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay&#039;26 Batch 10th Maths - 1st FREE Class | Real Numbers - Lecture 1 | Check Desc.</h3>
+                <p class='channel-name_83eb8be7'>⚡ Abhay 10th Batch 2026</p>
+                <button class='stream-btn_925db112 live-btn_d6df471b' onclick="openModal('3VCamVHd6ez/EsFtzY05s2VSUnpjYTd6b3puaWs1RHV3L0VRRUE9PQ==')"><span>Join Stream</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div></div>        </div>
+        <div id="upcoming" class="tab-content_e755a876">
+            <div class='stream-grid_f7e01d75'>
+        <div class='stream-card_d4dc82bb upcoming-card_7bc6d760' style='animation-delay: 0s'>
+            <div class='stream-badge_e3b130ad live-badge-blue_9c47bca1'>
+                <div class='status-dot_48eaded3'></div>SCHEDULED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/16477252410138_Science%20Stream%20%282%29.png' alt='Some Basic Concepts of Chemistry | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>⏳</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Some Basic Concepts of Chemistry | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 upcoming-btn_3fc6e138' onclick="openModal('+FmCVshIVC+ilQvwGsJKZ2FFM1owMTZacU41bkg4WklscFhsRytHRFBmVEh3Sm5mRTdjMFl2UlRGOS82NnFhWUN0ZzF2YjgyUHVxWlpJRkg3Q0lrZmFMYnBTQktyOWtuc0x2NXRLSE9xUEMwaGZ2WVRZOTFoR0RmR2xMaEdEVzZRTUUwandnT0xHZmhzekRz')"><span>Set Reminder</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb upcoming-card_7bc6d760' style='animation-delay: 0.15s'>
+            <div class='stream-badge_e3b130ad live-badge-blue_9c47bca1'>
+                <div class='status-dot_48eaded3'></div>SCHEDULED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/75078952410155_Commerce%20Stream%20%2816%29.png' alt='Accounting Equation | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>⏳</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Accounting Equation | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Commerce11th - NIRBHAY	</p>
+                <button class='stream-btn_925db112 upcoming-btn_3fc6e138' onclick="openModal('LVDSLp0H8j54jgZC8oSqHTM2Y0Ixb3J1TDU1TkhoTmVZRVJueUdha0ttRDFJTWJxK0VZNEg5ZWt3NFBpSW1YNjZ5Slp2SDY1Yk9GY3kyVm9YL2Z0WGk2T2hYQXlIZ09vcjFCZ1RTZjhidFk3UHluOHNqQ0I0dldETXcyNHpRVnpQd21EMmMzTnlYVW1kR1RL')"><span>Set Reminder</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb upcoming-card_7bc6d760' style='animation-delay: 0.3s'>
+            <div class='stream-badge_e3b130ad live-badge-blue_9c47bca1'>
+                <div class='status-dot_48eaded3'></div>SCHEDULED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/23612432410172_Humanities%20Stream%20%289%29.png' alt='India and its Location | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>⏳</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>India and its Location | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Humanities 11th  - NIRBHAY	</p>
+                <button class='stream-btn_925db112 upcoming-btn_3fc6e138' onclick="openModal('WokHLw0iq8Vn29wK5aZzmUhXaTVuQUpYR2N2bVJpamcyUWFnN2k2T0VuTXNlZndLdnlkYlU4Z3FjVjl3SmNzckc3Y2ZLRDIzUlNlRGdtOUEyMFZPY0xaZFg0ZURDTW9VZnJwQStIdmx6N25jVk5vTi9LZVRsZUlMWFczVUo1Z3dyYWZhaG1KRkM2NFpHRmZt')"><span>Set Reminder</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb upcoming-card_7bc6d760' style='animation-delay: 0.45s'>
+            <div class='stream-badge_e3b130ad live-badge-blue_9c47bca1'>
+                <div class='status-dot_48eaded3'></div>SCHEDULED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/26042792410132_Commerce%20Stream%20%2814%29.png' alt='Numbers Quantification and Numerical Applications - (P2)' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>⏳</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Numbers Quantification and Numerical Applications - (P2)</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science NIRBHAY Pro	</p>
+                <button class='stream-btn_925db112 upcoming-btn_3fc6e138' onclick="openModal('cifV5VnLIYCT5HbSJ6xpo0IwZEpJU0F6clNwQUlJYkREbTU2N01HMndpQndxR1BjMVQ1UlkrY1B5YnBxN29YbkRNdVpBbzlqR21JeC95TTVVcjdrL1JHTzRQOS9qSjNMdUZnRlhVY2RhWk5PNDEvT1ZEYnk0a2tUU1BXeUUxUXpxWHM0b09PcE51NkZZdXVa')"><span>Set Reminder</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb upcoming-card_7bc6d760' style='animation-delay: 0.6s'>
+            <div class='stream-badge_e3b130ad live-badge-blue_9c47bca1'>
+                <div class='status-dot_48eaded3'></div>SCHEDULED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/14996052410148_Science%20Stream%20%284%29.png' alt='Electric Charges and Field | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>⏳</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Electric Charges and Field | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science NIRBHAY Pro	</p>
+                <button class='stream-btn_925db112 upcoming-btn_3fc6e138' onclick="openModal('kYImWFoxdzJ9ajtsnX6EjWhsVkhwMW0zaTVTT0VXUE5zVmNYTWtHK3dIMDdZN0Vkb21LWndsc2xCKzV4blpQOVNLUXBRYURzR1NyMnNXRzdtMm44V2hrN2pyNWtDTXZxK2ZFQXBNamdGVkJFMEl2aUp3bERKaXVqS2J5K1RBRjNqaVc1S3k0blkxZUlnbUF5')"><span>Set Reminder</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div></div>        </div>
+        <div id="completed" class="tab-content_e755a876">
+            <div class='stream-grid_f7e01d75'>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/901252410135_Science%20Stream%20%281%29.png' alt='Biological Classification | 1' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Biological Classification | 1</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('n+ozbTj8HyYLKW/fQER7NzQ1dmwxSy9ETkV5ZEp0eStLMjM4VFZmNEtycTFYWkNpZnQwSGJSWGpEZzFrTTVaTFVpYXJSKzhubWlXeklDVld6bEo0UWt5Z2FlS2FiY3cwMmNTdk9vUnA1RHQ0SVRaaGtCUWVubU93NS9kaVJ4Myt4cnVHcHFZVnZ4Ync0L2F6')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0.15s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/ob8B2IV96to/hqdefault.jpg' alt='Nirbhay Batch 11th Political Science - 1st FREE Class | Constitution Why and How - Lecture 1' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th Political Science - 1st FREE Class | Constitution Why and How - Lecture 1</h3>
+                <p class='channel-name_83eb8be7'>⚡ Humanities 11th  - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('Y2YKn70dPAnk5IPiPnUa6DZrVDhqeXI2dzZIVUJrblY4K1pNSlE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0.3s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/0YgA8v-9iMk/hqdefault.jpg' alt='Sets &amp; Relations - 1st Class Free | Class 11 Applied Maths Nirbhay Batch' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Sets &amp; Relations - 1st Class Free | Class 11 Applied Maths Nirbhay Batch</h3>
+                <p class='channel-name_83eb8be7'>⚡ Commerce11th - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('uTlSui0LkNPOdxBCLL7nj0o3WnBCd05jVmRZb3BOSXFYb3BQUGc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0.45s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/RFP9qyEG-NU/hqdefault.jpg' alt='Nirbhay Batch 11th Biology - 1st FREE Class | The Living World Lecture 1 | Check Description ?' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th Biology - 1st FREE Class | The Living World Lecture 1 | Check Description ?</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('fRi0ISvVqasD14ATGDZndGtodUZYeGliTVV3YVFVRzZvT0czSXc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0.6s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/mY9AwTB99SY/hqdefault.jpg' alt='Demand - 1st Class Free | Class 11 Economics Nirbhay Batch' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Demand - 1st Class Free | Class 11 Economics Nirbhay Batch</h3>
+                <p class='channel-name_83eb8be7'>⚡ Commerce11th - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('xtKaj1GVfsxqM7v1uDsFeFY1cmxxSEZzYVFlVUtKcm1SazNNd1E9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0.75s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/qSnAWs8xVBs/hqdefault.jpg' alt='Nirbhay Batch 11th Physics - 1st FREE Class | Unit and Measurement Lecture 1 | Check Description ?' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th Physics - 1st FREE Class | Unit and Measurement Lecture 1 | Check Description ?</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('TmTQbLzQZJai6kwqhYWOkytDQ1JSYXVLczNUZUpjOFFkeWRtZWc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 0.9s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/TWkndUZ8jnc/hqdefault.jpg' alt='Nirbhay Batch 11th Chemistry - 1st FREE Class | Some Basic Concepts of Chemistry (L-1) | Check Below' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th Chemistry - 1st FREE Class | Some Basic Concepts of Chemistry (L-1) | Check Below</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('Tp4gHlHpzwo4Qxb/VqTm4VJJTFRjZ2svdUg2bWN6VGxtK2hYL2c9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.05s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/mjz9g3yqMOk/hqdefault.jpg' alt='Accounting Equations - 1st Class Free | Class 11 Accounts Nirbhay Batch' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Accounting Equations - 1st Class Free | Class 11 Accounts Nirbhay Batch</h3>
+                <p class='channel-name_83eb8be7'>⚡ Commerce11th - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('DyRJj/jawa1q6g8c8YnWJnFQNHdBcnFBM1RXdnlwbE9pV0FNYUE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.2s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/NwF7pXT36OQ/hqdefault.jpg' alt='Nirbhay Batch 11th Geography - 1st FREE Class | India and its Location Life Lecture-1 | Check Below?' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th Geography - 1st FREE Class | India and its Location Life Lecture-1 | Check Below?</h3>
+                <p class='channel-name_83eb8be7'>⚡ Humanities 11th  - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('ztSIqadPvom4uN0duFNHqU1rVUxiZ3RVdDM5cjAzcTVxWjVOamc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.35s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/J9QYAC-NS-U/hqdefault.jpg' alt='Nature and  Purpose of Business - 1st Class Free | Class 11 Business Studies Nirbhay Batch' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nature and  Purpose of Business - 1st Class Free | Class 11 Business Studies Nirbhay Batch</h3>
+                <p class='channel-name_83eb8be7'>⚡ Commerce11th - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('fpXGTG4mEIPsFDQxiON8uGVoWmtJL0pqSHZFS0tMeW53dFQzcEE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.5s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/NFK-K-DK1XI/hqdefault.jpg' alt='Nirbhay Batch 11th History - 1st FREE Class | Writing and City Life Lecture-1 | Check Description?' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th History - 1st FREE Class | Writing and City Life Lecture-1 | Check Description?</h3>
+                <p class='channel-name_83eb8be7'>⚡ Humanities 11th  - NIRBHAY	</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('gcJSWTjm/riLXzM2e5OS0U5PMWVkNVN0ZUIvWGZoQ3FkdlJuY1E9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.65s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/2TiuasNA4wU/hqdefault.jpg' alt='Nirbhay Batch 11th Maths - 1st FREE Class | Sets Lecture 1 |' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Nirbhay Batch 11th Maths - 1st FREE Class | Sets Lecture 1 |</h3>
+                <p class='channel-name_83eb8be7'>⚡ Science 11th (PCMB) - NIRBHAY</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('DcvZjFP03yfPs+QuBjSBejdhaWl2SEI4bXZ0RWpWdUpjeDFVakE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.8s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/64776312410212_UpBihar%20Stream%20%283%29.png' alt='वास्तविक संख्याएँ | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>वास्तविक संख्याएँ | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ UP Board ABHAY 10th (हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('tgSmjAOgX8JIfjdHbiriLzlsekdZTG9BSUwrc3p5cEYvR1hzdWtXZDQzaUI3MFE1a0hTbXE5N2Fnc3pxeDZCeThib0p1RE8ySE4wM1lzemFqUmI4WjFCcUNlczVacG9jR3MycHA4OVRzWGtEYnRkbUptVTd1KzVyUENxSWIvdGdEYjQrRUltVVVITUJqcnNI')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 1.95s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://dxixtlyravvxx.cloudfront.net/540/admin_v1/file_manager/videos/18832712410196_UpBihar%20Stream%20%282%29.png' alt='रासायनिक अभिक्रियाएँ और समीकरण | L2' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>रासायनिक अभिक्रियाएँ और समीकरण | L2</h3>
+                <p class='channel-name_83eb8be7'>⚡ Bihar Board ABHAY 10th(हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('/eXg3YyBzKTMeSKSQqypKkNVYVRpUmV6V0NXYlpiV25JdjA3eVVpaHNrRnNtSUNQdjdNc1pzWTVMT0NyVXNKSGdHMVFGUHA3N2czZ0k1cDRHNjRlemJJY2pBWHpualNhSk5BbFdHTDl3b1UrYlRQVzhkT2dCQWI0WFBMODVvRlVWdUt2VmhJZnZ5bkRnLzlIaGEwZ2x3c3VHTnF2NUoxQ2pvQkcyc2xqQ1I0MEpTdlhGZy84YnVMKzl6MD0=')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 2.1s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/wIz237OBcM0/hqdefault.jpg' alt='Abhay&#039;26 Batch 9th Maths - 1st FREE Class | Number System - Lecture 1 | Check Desc.' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay&#039;26 Batch 9th Maths - 1st FREE Class | Number System - Lecture 1 | Check Desc.</h3>
+                <p class='channel-name_83eb8be7'>⚡ Abhay 9th Batch 2026</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('Qm2NhY+73NO/o+U8Xssy8VhvOUE1aTFMeVBiVXMxV3QyM2R0cFE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 2.25s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/V7zB5Gc6tts/hqdefault.jpg' alt='Abhay Batch 10th SST (सामाजिक विज्ञान)-1st FREE Class | यूरोप में राष्ट्रवाद का उदय (L-1) | UP Board' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay Batch 10th SST (सामाजिक विज्ञान)-1st FREE Class | यूरोप में राष्ट्रवाद का उदय (L-1) | UP Board</h3>
+                <p class='channel-name_83eb8be7'>⚡ UP Board ABHAY 10th (हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('forIq2LMw090XpNRyX0bRFRFZXJPTGxYenEvbEc0T2FkYS9pTWc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 2.4s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/YEevDOOHWe8/hqdefault.jpg' alt='Abhay&#039;26 Batch 10th SST - 1st FREE Class | Development - Lecture 1 | Check Desc.' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay&#039;26 Batch 10th SST - 1st FREE Class | Development - Lecture 1 | Check Desc.</h3>
+                <p class='channel-name_83eb8be7'>⚡ Abhay 10th Batch 2026</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('v0g4471YUp5E7w9ac3dlcUJKeHd3T0pxUWxlcWRFdUxxYmVjZ0E9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 2.55s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi//hqdefault.jpg' alt='Abhay Batch 10th SST (सामाजिक विज्ञान) - 1st FREE Class | यूरोप में राष्ट्रवाद (L-1) | Bihar Board' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay Batch 10th SST (सामाजिक विज्ञान) - 1st FREE Class | यूरोप में राष्ट्रवाद (L-1) | Bihar Board</h3>
+                <p class='channel-name_83eb8be7'>⚡ Bihar Board ABHAY 10th(हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('gv6vSSzCGVUMswzzT6P5OHdKZUlCRGZLblI2RTFVOXZSbkJQVEE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 2.7s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/Df36zpeo-lw/hqdefault.jpg' alt='Abhay&#039;26 Batch 9th SST - 1st FREE Class | People as Resource - Lecture 1 | Check Desc.' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay&#039;26 Batch 9th SST - 1st FREE Class | People as Resource - Lecture 1 | Check Desc.</h3>
+                <p class='channel-name_83eb8be7'>⚡ Abhay 9th Batch 2026</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('FxjHDCujy2RxYokCjYr/+0RaQjIza2NFc2FvM3BDZmZvSkhvYUE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 2.85s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/Iz8qs6jWJpU/hqdefault.jpg' alt='Abhay Batch 10th Science(विज्ञान)-1st FREE Class | रासायनिक अभिक्रियाएँ और समीकरण(L-1) | Bihar Board' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay Batch 10th Science(विज्ञान)-1st FREE Class | रासायनिक अभिक्रियाएँ और समीकरण(L-1) | Bihar Board</h3>
+                <p class='channel-name_83eb8be7'>⚡ Bihar Board ABHAY 10th(हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('uGtn0tC9n2Eo/upZs844PUllS3l0WWc2cE56R1BXN1lWeXlXOWc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 3s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/5iJHgjAv8-s/hqdefault.jpg' alt='Abhay Batch 10th Maths (गणित ) - 1st FREE Class | वास्तविक संख्याएँ (Lecture-1) | Bihar Board' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay Batch 10th Maths (गणित ) - 1st FREE Class | वास्तविक संख्याएँ (Lecture-1) | Bihar Board</h3>
+                <p class='channel-name_83eb8be7'>⚡ Bihar Board ABHAY 10th(हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('5RqIYp2aDzJ6M63sK1ZoyC9OcE4wQ2h6K0JCNVJSdVhueEEyaEE9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 3.15s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/k3wEBNT72iE/hqdefault.jpg' alt='Abhay Batch 10th Science (विज्ञान)-1st FREE Class | रासायनिक अभिक्रियाएँ और समीकरण (L-1) | UP Board' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay Batch 10th Science (विज्ञान)-1st FREE Class | रासायनिक अभिक्रियाएँ और समीकरण (L-1) | UP Board</h3>
+                <p class='channel-name_83eb8be7'>⚡ UP Board ABHAY 10th (हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('kYiz6EVb6mHztt6IKEAueUxQK0FuNXNVVE4vZGswU2lLWFNHSXc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 3.3s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/QflnC_31s6s/hqdefault.jpg' alt='Abhay Batch 10th Maths (गणित ) - 1st FREE Class | वास्तविक संख्याएँ (Lecture-1) | UP Board' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay Batch 10th Maths (गणित ) - 1st FREE Class | वास्तविक संख्याएँ (Lecture-1) | UP Board</h3>
+                <p class='channel-name_83eb8be7'>⚡ UP Board ABHAY 10th (हिंदी माध्यम)</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('zSe10Yi6pZQuiOsTjbgpVE54a2x5ZmQyd2ZEYUNDazZ0QTd5Zmc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div>
+        <div class='stream-card_d4dc82bb completed-card_cd5a3354' style='animation-delay: 3.45s'>
+            <div class='stream-badge_e3b130ad live-badge-green_b501d6d8'>
+                <div class='status-dot_48eaded3'></div>RECORDED
+            </div>
+            <div class='card-thumbnail_7a112a29'>
+                <img src='https://i.ytimg.com/vi/CTFuXmQsVdA/hqdefault.jpg' alt='Abhay&#039;26 Batch 10th Science - 1st FREE Class | Life Processes - Lecture 1 |' loading='lazy'>
+                <div class='stream-overlay_481330f3'><div class='play-button_0b7d1f55'><div class='play-icon_cab3b206'>📺</div></div></div>
+            </div>
+            <div class='stream-info_0e48046f'>
+                <h3 class='stream-title_1c746af1'>Abhay&#039;26 Batch 10th Science - 1st FREE Class | Life Processes - Lecture 1 |</h3>
+                <p class='channel-name_83eb8be7'>⚡ Abhay 10th Batch 2026</p>
+                <button class='stream-btn_925db112 completed-btn_eaeb75c4' onclick="openModal('AjWSJDRNsH4G0YD0lYWFandnMWxDNS9iWjlrTGJiOVN5VVorMHc9PQ==')"><span>Watch Replay</span><div class='btn-shine_6a9a7d81'></div></button>
+            </div>
+        </div></div>        </div>
+    </div>
+    <div id="videoModal" class="video-modal_af99cee1">
+        <div class="modal-content_521f1d99">
+            <span class="close-btn_3386117b" onclick="closeModal()">&times;</span>
+            <video id="videoPlayer" controls></video>
+        </div>
+    </div>
+    <script>
+        let notificationPanel=document.getElementById('notificationPanel');
+        let notificationCount=0;
+        let currentHls = null;
+        function toggleNotifications(){
+            notificationPanel.classList.toggle('active');
+            if(notificationPanel.classList.contains('active')){loadNotifications();}
+        }
+        document.addEventListener('click',function(event){
+            const notificationArea=document.querySelector('.notification-area_c935fc0c');
+            if(!notificationArea.contains(event.target)){notificationPanel.classList.remove('active');}
+        });
+        function formatNotificationMessage(message){
+            const temp=document.createElement('div');
+            temp.innerHTML=message;
+            return temp.textContent||temp.innerText||'';
+        }
+        function getTimeAgo(index){
+            if(index===0) return 'Just now';
+            if(index===1) return '1 minute ago';
+            if(index<5) return `${index} minutes ago`;
+            if(index<10) return '10 minutes ago';
+            if(index<15) return '30 minutes ago';
+            return '1 hour ago';
+        }
+        function loadNotifications(){
+            fetch('?action=fetch_notifications')
+                .then(response=>response.json())
+                .then(data=>{
+                    const notificationList=document.getElementById('notificationList');
+                    notificationList.innerHTML='';
+                    if(data.status&&data.data&&data.data.length>0){
+                        notificationCount=data.count||data.data.length;
+                        document.getElementById('notificationCount').textContent=notificationCount;
+                        data.data.forEach((notification,index)=>{
+                            const notificationItem=document.createElement('div');
+                            notificationItem.className='notification-item_59dcbdbb';
+                            notificationItem.onclick=()=>window.open('https://RolexCoderZ.live','_blank');
+                            const formattedMessage=formatNotificationMessage(notification.message);
+                            const timeAgo=getTimeAgo(index);
+                            notificationItem.innerHTML=`
+                                <div class="notification-item-header_f6634255">
+                                    <img src="https://i.postimg.cc/KzTy05Wm/IMG-20250301-092318-614.jpg" alt="RolexCoderZ" class="notification-icon_26050c9f">
+                                    <div class="notification-content_df215dd2">
+                                        <div class="notification-item-title_80273ff0">${notification.title}</div>
+                                        <div class="notification-message_3045395b">${formattedMessage}</div>
+                                        <div class="notification-time_627d47da">${timeAgo}</div>
+                                    </div>
+                                </div>`;
+                            notificationList.appendChild(notificationItem);
+                        });
+                    }else{
+                        notificationList.innerHTML=`
+                            <div style="text-align:center;padding:2rem;color:rgba(255,255,255,0.5);">
+                                <div style="font-size:2rem;margin-bottom:0.5rem;">📭</div>
+                                <div>No new notifications</div>
+                            </div>`;
+                    }
+                })
+                .catch(error=>{console.error('Error loading notifications:',error);});
+        }
+        function markAllRead(){
+            document.getElementById('notificationCount').textContent='0';
+            document.getElementById('notificationCount').style.display='none';
+        }
+        function switchTab(tabName){
+            document.querySelectorAll('.tab-content_e755a876').forEach(content=>content.classList.remove('active'));
+            document.querySelectorAll('.tab-btn_d5c8d8ec').forEach(btn=>btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        function animateCounter(elementId,targetValue){
+            const element=document.getElementById(elementId);
+            let current=0;
+            const increment=targetValue/20;
+            const timer=setInterval(()=>{
+                current+=increment;
+                if(current>=targetValue){
+                    element.textContent=targetValue;
+                    clearInterval(timer);
+                }else{
+                    element.textContent=Math.floor(current);
+                }
+            },50);
+        }
+        function openModal(encrypted) {
+            document.getElementById('videoModal').style.display = 'block';
+            var url = 'index.php?RolexCoderZ&rc=' + encodeURIComponent(encrypted);
+            var video = document.getElementById('videoPlayer');
+            if (currentHls) {
+                currentHls.destroy();
+            }
+            if (Hls.isSupported()) {
+                currentHls = new Hls();
+                currentHls.loadSource(url);
+                currentHls.attachMedia(video);
+                video.play().catch(error => console.error('Playback error:', error));
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play().catch(error => console.error('Playback error:', error));
+                });
+            }
+        }
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            modal.style.display = 'none';
+            const video = document.getElementById('videoPlayer');
+            if (video) {
+                video.pause();
+                video.removeAttribute('src');
+                video.load();
+                if (currentHls) {
+                    currentHls.destroy();
+                    currentHls = null;
+                }
+            }
+        }
+        window.addEventListener('load',()=>{
+            loadNotifications();
+            const liveCount=7;
+            const upcomingCount=5;
+            const completedCount=24;
+            setTimeout(()=>{
+                animateCounter('liveCount',liveCount);
+                animateCounter('upcomingCount',upcomingCount);
+                animateCounter('completedCount',completedCount);
+            },1000);
+            setTimeout(()=>{
+                const loadingOverlay=document.getElementById('loadingOverlay');
+                loadingOverlay.style.opacity='0';
+                setTimeout(()=>{loadingOverlay.style.display='none';},500);
+            },1200);
+        });
+        setInterval(()=>{
+            if(document.querySelector('.tab-content_e755a876.active').id==='live' && document.getElementById('videoModal').style.display !== 'block'){
+                window.location.reload();
+            }
+        },60000);
+        setInterval(()=>{loadNotifications();},30000);
+    </script>
+<script src="https://www.rolexcoderz.live/script.js"></script>
+</body>
+</html>
