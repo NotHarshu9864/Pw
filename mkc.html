@@ -1,0 +1,186 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lecture → JSON Converter</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#06b6d4;--glass:rgba(255,255,255,0.03)}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,-apple-system,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#071025 0%, #071a2a 100%);color:#e6eef6;display:flex;align-items:center;justify-content:center;padding:28px}
+    .wrap{width:100%;max-width:980px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{width:58px;height:58px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 6px 20px rgba(2,6,23,.6)}
+    .logo span{font-size:20px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:1fr 420px;gap:18px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.6);border:1px solid rgba(255,255,255,0.03)}
+
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filebtn{display:inline-flex;gap:8px;align-items:center;padding:10px 12px;background:var(--glass);border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+.filebtn input{display:none}
+button, .download{background:var(--accent);border:none;color:#032;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+button.secondary{background:transparent;color:var(--accent);border:1px solid rgba(6,182,212,0.12)}
+
+textarea, pre{width:100%;min-height:180px;background:transparent;border:1px dashed rgba(255,255,255,0.04);padding:12px;border-radius:8px;color:inherit;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono',monospace;font-size:13px}
+.resultActions{display:flex;gap:8px;align-items:center;margin-top:8px}
+.small{font-size:13px;color:var(--muted)}
+
+@media (max-width:900px){.grid{grid-template-columns:1fr;}.logo{width:46px;height:46px}}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"><span>QJ</span></div>
+      <div>
+        <h1>Lecture → JSON Converter</h1>
+        <p class="lead">Upload or paste a file in the same format. This will decode lecture URLs, remove the player prefix and produce a downloadable JSON.</p>
+      </div>
+    </header><div class="grid">
+  <div class="card">
+    <div class="controls">
+      <label class="filebtn" title="Upload file">
+        📁 Upload file
+        <input id="fileInput" type="file" accept=".txt,.html,.htm,.md" />
+      </label>
+      <button id="pasteBtn" class="filebtn">📋 Paste text</button>
+      <button id="generateBtn">Generate JSON</button>
+      <button id="clearBtn" class="secondary">Clear</button>
+    </div>
+
+    <label class="small">Input preview (you can edit):</label>
+    <textarea id="inputArea" placeholder="Paste or upload the file content here..."></textarea>
+
+    <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+      <div class="small">Detected: <span id="chapCount">0</span> chapters</div>
+      <div class="small">Subject set to: <strong>business-studies</strong></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label class="small">Output JSON</label>
+    <pre id="outputArea">{}
+
+</pre>
+        <div class="resultActions">
+          <button id="downloadBtn" class="download" style="display:none">Download JSON</button>
+          <button id="copyBtn" class="secondary" style="display:none">Copy JSON</button>
+          <div style="flex:1;text-align:right;color:var(--muted);font-size:13px">Format: subject → "business-studies", chapters: ch1, ch2..., lectures: lec1, lec2...</div>
+        </div>
+      </div>
+    </div><div style="margin-top:14px;color:var(--muted);font-size:13px">Tip: URLs that start with <code>https://e-leak.vercel.app/private/myProfile/play/</code> will have that prefix removed and the remainder will be URL-decoded. Notes are taken from the <code>notesLink</code> query parameter when present.</div>
+
+  </div>  <script>
+    const fileInput = document.getElementById('fileInput');
+    const inputArea = document.getElementById('inputArea');
+    const generateBtn = document.getElementById('generateBtn');
+    const outputArea = document.getElementById('outputArea');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const pasteBtn = document.getElementById('pasteBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const chapCount = document.getElementById('chapCount');
+
+    fileInput.addEventListener('change', async (e)=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const text = await f.text();
+      inputArea.value = text.trim();
+      detectCounts();
+    });
+
+    pasteBtn.addEventListener('click', async ()=>{
+      try{
+        const txt = await navigator.clipboard.readText();
+        inputArea.value = txt;
+        detectCounts();
+      }catch(err){
+        alert('Could not read clipboard. Please paste manually.');
+      }
+    });
+
+    clearBtn.addEventListener('click', ()=>{inputArea.value=''; outputArea.textContent='{}'; downloadBtn.style.display='none'; copyBtn.style.display='none'; chapCount.textContent='0'});
+
+    inputArea.addEventListener('input', detectCounts);
+
+    function detectCounts(){
+      const lines = inputArea.value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+      let c=0; let i=0;
+      while(i<lines.length){
+        if(!lines[i].startsWith('http')){c++; i++; while(i<lines.length && lines[i].startsWith('http')) i++;} else i++;}
+      chapCount.textContent = c;
+    }
+
+    generateBtn.addEventListener('click', ()=>{
+      const raw = inputArea.value.trim();
+      if(!raw){alert('Please paste or upload a file first.');return}
+      const json = parseToJson(raw);
+      const pretty = JSON.stringify(json,null,2);
+      outputArea.textContent = pretty;
+      downloadBtn.style.display = 'inline-block';
+      copyBtn.style.display = 'inline-block';
+
+      // prepare blob for download
+      const blob = new Blob([pretty],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      downloadBtn.onclick = ()=>{ const a=document.createElement('a'); a.href=url; a.download='business-studies.json'; a.click(); };
+      copyBtn.onclick = ()=>{ navigator.clipboard.writeText(pretty).then(()=>{ copyBtn.textContent='Copied ✓'; setTimeout(()=>copyBtn.textContent='Copy JSON',1200) }) };
+    });
+
+    function parseToJson(text){
+      const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+      const chapters = [];
+      const prefix = 'https://e-leak.vercel.app/private/myProfile/play/';
+      let i=0; let chId=1;
+      while(i<lines.length){
+        // find next non-http line as chapter title
+        if(lines[i].startsWith('http')){
+          // stray URL before any chapter title -> treat as unnamed chapter
+          // create placeholder
+          const title = 'Untitled Chapter';
+          const {videos, newIndex} = collectVideos(lines,i,prefix);
+          chapters.push({id:`ch${chId}`, title, videos}); chId++; i = newIndex; continue;
+        }
+        const title = lines[i]; i++;
+        const {videos, newIndex} = collectVideos(lines,i,prefix);
+        chapters.push({id:`ch${chId}`, title, videos}); chId++; i = newIndex;
+      }
+      return {subject: 'business-studies', chapters};
+    }
+
+    function collectVideos(lines,startIndex,prefix){
+      const videos = []; let lec=1; let i=startIndex;
+      while(i<lines.length && lines[i].startsWith('http')){
+        let full = lines[i];
+        // split base and params
+        const qIndex = full.indexOf('?');
+        let base = qIndex>-1 ? full.slice(0,qIndex) : full;
+        let params = qIndex>-1 ? full.slice(qIndex+1) : '';
+        // remove prefix
+        let play = base;
+        if(play.startsWith(prefix)){
+          const enc = play.slice(prefix.length);
+          try{ play = decodeURIComponent(enc); } catch(e) { play = enc; }
+        }
+        // decode if normal encoded
+        try{ if(play.includes('%')) play = decodeURIComponent(play); } catch(e){}
+        // parse params for notesLink
+        let notes = '';
+        if(params){
+          try{
+            const usp = new URLSearchParams(params);
+            notes = usp.get('notesLink') || '';
+            if(notes === '#' ) notes = '';
+            try{ if(notes) notes = decodeURIComponent(notes); } catch(e){}
+          }catch(e){ /* ignore */ }
+        }
+        videos.push({id:`lec${lec}`, title:`Lecture ${lec}`, play:play, notes:notes}); lec++; i++;
+      }
+      return {videos, newIndex:i};
+    }
+
+  </script></body>
+</html>
