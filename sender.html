@@ -1,107 +1,260 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-  <title>QuickToppers – Notification Sender</title>
-  <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playlist Player</title>  <!-- YouTube IFrame API -->  <script src="https://www.youtube.com/iframe_api"></script>  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121826;
+      --accent: #00e5ff;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; font-family: Inter, system-ui, sans-serif; }
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 30px;
+      margin: 0;
+      background: radial-gradient(circle at top, #101827, #05070c);
+      color: var(--text);
     }
-    h2 {
+
+    h1 {
       text-align: center;
+      margin: 24px 0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
-    .box {
-      background: #fff;
-      padding: 20px;
-      max-width: 500px;
+
+    .container {
+      max-width: 1200px;
       margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ddd;
+      padding: 16px;
     }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #bbb;
+
+    /* Playlist cards */
+    .playlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      border: none;
-      color: #fff;
-      font-size: 16px;
-      border-radius: 8px;
+
+    .playlist-card {
+      background: linear-gradient(180deg, #151c2f, #0e1423);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.4);
       cursor: pointer;
-      margin-top: 10px;
+      transition: transform .25s ease, box-shadow .25s ease;
     }
-    button:hover {
-      background: #0056b3;
+
+    .playlist-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
     }
-  </style>
-</head>
-<body>
 
-<h2>📨 QuickToppers Push Notification Sender</h2>
+    .playlist-title {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
 
-<div class="box">
-  <label>FCM Server Key</label>
-  <input id="serverKey" type="text" placeholder="Enter your FCM Server Key">
+    .playlist-count {
+      color: var(--muted);
+      font-size: .9rem;
+    }
 
-  <label>User Token</label>
-  <textarea id="token" rows="3" placeholder="Paste User FCM Token"></textarea>
+    /* Player section */
+    .player-wrapper {
+      margin-top: 32px;
+      display: none;
+      gap: 24px;
+    }
 
-  <label>Title</label>
-  <input id="title" type="text" placeholder="Notification Title">
+    .player-wrapper.active {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+    }
 
-  <label>Message</label>
-  <textarea id="body" rows="3" placeholder="Notification Message"></textarea>
+    .video-box {
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/9;
+    }
 
-  <label>Icon URL (optional)</label>
-  <input id="icon" type="text" placeholder="/icon.png">
+    /* Thumbnail overlay */
+    .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
 
-  <button onclick="sendNotification()">SEND NOTIFICATION</button>
-</div>
+    .thumb-overlay::after {
+      content: '▶';
+      font-size: 64px;
+      color: white;
+      background: rgba(0,0,0,.5);
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-<script>
-async function sendNotification() {
-  const serverKey = document.getElementById('serverKey').value;
-  const token = document.getElementById('token').value;
-  const title = document.getElementById('title').value;
-  const body = document.getElementById('body').value;
-  const icon = document.getElementById('icon').value || "/icon.png";
+    .song-list {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 12px;
+      max-height: 360px;
+      overflow-y: auto;
+    }
 
-  if (!serverKey || !token || !title || !body) {
-    alert("Please fill all required fields!");
-    return;
+    .song {
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: background .2s, color .2s;
+    }
+
+    .song:hover { background: #1a2238; color: var(--text); }
+    .song.active { background: var(--accent); color: #000; font-weight: 500; }
+
+    @media (max-width: 900px) {
+      .player-wrapper.active {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style></head>
+<body><h1>🎵 Playlist Player</h1><div class="container">
+  <div id="playlistGrid" class="playlist-grid"></div>  <div id="playerSection" class="player-wrapper">
+    <div class="video-box">
+      <div id="player"></div>
+      <div id="thumb" class="thumb-overlay"></div>
+    </div><div id="songList" class="song-list"></div>
+
+  </div>
+</div><script>
+/* ---------------- JSON DATA ---------------- */
+const data = {
+  "playlists": [
+    {
+      "title": "Chill Vibes",
+      "songs": [
+        { "title": "Song One", "videoId": "dQw4w9WgXcQ" },
+        { "title": "Song Two", "videoId": "3tmd-ClpJxA" }
+      ]
+    },
+    {
+      "title": "Workout",
+      "songs": [
+        { "title": "Energy Boost", "videoId": "fLexgOxsZu0" },
+        { "title": "Run Fast", "videoId": "kXYiU_JCYtU" }
+      ]
+    }
+  ]
+};
+
+/* ---------------- STATE ---------------- */
+let player;
+let currentPlaylist = [];
+let currentIndex = 0;
+let playerReady = false;
+
+/* ---------------- INIT UI ---------------- */
+const grid = document.getElementById('playlistGrid');
+const playerSection = document.getElementById('playerSection');
+const songList = document.getElementById('songList');
+const thumb = document.getElementById('thumb');
+
+function renderPlaylists() {
+  data.playlists.forEach((pl, index) => {
+    const card = document.createElement('div');
+    card.className = 'playlist-card';
+    card.innerHTML = `
+      <div class="playlist-title">${pl.title}</div>
+      <div class="playlist-count">${pl.songs.length} songs</div>
+    `;
+    card.onclick = () => openPlaylist(index);
+    grid.appendChild(card);
+  });
+}
+
+function openPlaylist(index) {
+  currentPlaylist = data.playlists[index].songs;
+  currentIndex = 0;
+  renderSongs();
+  loadSong(0, false);
+  playerSection.classList.add('active');
+}
+
+function renderSongs() {
+  songList.innerHTML = '';
+  currentPlaylist.forEach((song, i) => {
+    const div = document.createElement('div');
+    div.className = 'song';
+    div.textContent = song.title;
+    div.onclick = () => loadSong(i, true);
+    songList.appendChild(div);
+  });
+}
+
+function highlightSong() {
+  [...songList.children].forEach((el, i) => {
+    el.classList.toggle('active', i === currentIndex);
+  });
+}
+
+/* ---------------- PLAYER ---------------- */
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '100%',
+    width: '100%',
+    videoId: '',
+    playerVars: { controls: 1, rel: 0 },
+    events: {
+      onReady: () => playerReady = true,
+      onStateChange: onPlayerStateChange
+    }
+  });
+}
+
+function loadSong(index, autoplay) {
+  currentIndex = index;
+  const videoId = currentPlaylist[index].videoId;
+
+  thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${videoId}/hqdefault.jpg)`;
+  thumb.style.display = 'flex';
+
+  if (playerReady) {
+    player.loadVideoById(videoId);
+    if (!autoplay) player.pauseVideo();
   }
 
-  const data = {
-    to: token,
-    notification: {
-      title: title,
-      body: body,
-      icon: icon
-    }
-  };
-
-  const response = await fetch("https://fcm.googleapis.com/fcm/send", {
-    method: "POST",
-    headers: {
-      "Authorization": "key=" + serverKey,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
-
-  const result = await response.json();
-  console.log(result);
-
-  alert("Notification Sent Successfully!");
+  highlightSong();
 }
-</script>
 
-</body>
+thumb.onclick = () => {
+  thumb.style.display = 'none';
+  player.playVideo();
+};
+
+function onPlayerStateChange(e) {
+  if (e.data === YT.PlayerState.ENDED) {
+    const next = currentIndex + 1;
+    if (next < currentPlaylist.length) {
+      loadSong(next, true);
+      thumb.style.display = 'none';
+    }
+  }
+}
+
+renderPlaylists();
+</script></body>
 </html>
