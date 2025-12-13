@@ -142,9 +142,18 @@
   </div>
 </div><script>
 /* ---------------- JSON DATA ---------------- */
+/* ---------------- FETCH JSON DATA ---------------- */
+let data = { playlists: [] };
+
 fetch('data/playlists.json')
   .then(res => res.json())
-  .then(json => { data.playlists = json.playlists; renderPlaylists(); });
+  .then(json => {
+    data = json;
+    renderPlaylists();
+  })
+  .catch(err => {
+    console.error('Failed to load playlists.json', err);
+  });
 
 /* ---------------- STATE ---------------- */
 let player;
