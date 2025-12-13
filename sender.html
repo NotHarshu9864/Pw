@@ -142,24 +142,9 @@
   </div>
 </div><script>
 /* ---------------- JSON DATA ---------------- */
-const data = {
-  "playlists": [
-    {
-      "title": "Chill Vibes",
-      "songs": [
-        { "title": "Song One", "videoId": "dQw4w9WgXcQ" },
-        { "title": "Song Two", "videoId": "3tmd-ClpJxA" }
-      ]
-    },
-    {
-      "title": "Workout",
-      "songs": [
-        { "title": "Energy Boost", "videoId": "fLexgOxsZu0" },
-        { "title": "Run Fast", "videoId": "kXYiU_JCYtU" }
-      ]
-    }
-  ]
-};
+fetch('data/playlists.json')
+  .then(res => res.json())
+  .then(json => { data.playlists = json.playlists; renderPlaylists(); });
 
 /* ---------------- STATE ---------------- */
 let player;
