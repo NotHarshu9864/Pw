@@ -131,8 +131,66 @@
         grid-template-columns: 1fr;
       }
     }
-  </style></head>
-<body><h1>🎵 Playlist Player</h1><div class="container">
+  
+    /* Splash Screen */
+    .splash {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #0ff, #020617 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+
+    .splash.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-inner {
+      text-align: center;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    .logo-glow {
+      font-size: 64px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 25px cyan);
+    }
+
+    .splash h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+
+    .splash p {
+      color: #0ff;
+      opacity: .8;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .main-title {
+      text-align: center;
+      margin: 28px 0 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+</style></head>
+<body><!-- Splash Screen --><div id="splash" class="splash">
+  <div class="splash-inner">
+    <div class="logo-glow">🎧</div>
+    <h1>Exos Music</h1>
+    <p>Feel the vibe</p>
+  </div>
+</div><h1 class="main-title">Exos Music</h1><div class="container">
   <div id="playlistGrid" class="playlist-grid"></div>  <div id="playerSection" class="player-wrapper">
     <div class="video-box">
       <div id="player"></div>
@@ -141,114 +199,11 @@
 
   </div>
 </div><script>
-/* ---------------- JSON DATA ---------------- */
-/* ---------------- FETCH JSON DATA ---------------- */
-let data = { playlists: [] };
-
-fetch('data/playlists.json')
-  .then(res => res.json())
-  .then(json => {
-    data = json;
-    renderPlaylists();
-  })
-  .catch(err => {
-    console.error('Failed to load playlists.json', err);
-  });
-
-/* ---------------- STATE ---------------- */
-let player;
-let currentPlaylist = [];
-let currentIndex = 0;
-let playerReady = false;
-
-/* ---------------- INIT UI ---------------- */
-const grid = document.getElementById('playlistGrid');
-const playerSection = document.getElementById('playerSection');
-const songList = document.getElementById('songList');
-const thumb = document.getElementById('thumb');
-
-function renderPlaylists() {
-  data.playlists.forEach((pl, index) => {
-    const card = document.createElement('div');
-    card.className = 'playlist-card';
-    card.innerHTML = `
-      <div class="playlist-title">${pl.title}</div>
-      <div class="playlist-count">${pl.songs.length} songs</div>
-    `;
-    card.onclick = () => openPlaylist(index);
-    grid.appendChild(card);
-  });
-}
-
-function openPlaylist(index) {
-  currentPlaylist = data.playlists[index].songs;
-  currentIndex = 0;
-  renderSongs();
-  loadSong(0, false);
-  playerSection.classList.add('active');
-}
-
-function renderSongs() {
-  songList.innerHTML = '';
-  currentPlaylist.forEach((song, i) => {
-    const div = document.createElement('div');
-    div.className = 'song';
-    div.textContent = song.title;
-    div.onclick = () => loadSong(i, true);
-    songList.appendChild(div);
-  });
-}
-
-function highlightSong() {
-  [...songList.children].forEach((el, i) => {
-    el.classList.toggle('active', i === currentIndex);
-  });
-}
-
-/* ---------------- PLAYER ---------------- */
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    height: '100%',
-    width: '100%',
-    videoId: '',
-    playerVars: { controls: 1, rel: 0 },
-    events: {
-      onReady: () => playerReady = true,
-      onStateChange: onPlayerStateChange
-    }
-  });
-}
-
-function loadSong(index, autoplay) {
-  currentIndex = index;
-  const videoId = currentPlaylist[index].videoId;
-
-  thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${videoId}/hqdefault.jpg)`;
-  thumb.style.display = 'flex';
-
-  if (playerReady) {
-    player.loadVideoById(videoId);
-    if (!autoplay) player.pauseVideo();
-  }
-
-  highlightSong();
-}
-
-thumb.onclick = () => {
-  thumb.style.display = 'none';
-  player.playVideo();
-};
-
-function onPlayerStateChange(e) {
-  if (e.data === YT.PlayerState.ENDED) {
-    const next = currentIndex + 1;
-    if (next < currentPlaylist.length) {
-      loadSong(next, true);
-      thumb.style.display = 'none';
-    }
-  }
-}
-
-renderPlaylists();
+/* ---------------- SPLASH ---------------- */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hide');
+  }, 1800);
+});
 </script></body>
 </html>
