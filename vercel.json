@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/mkc", "destination": "/mkc.html" }
+    { "source": "/music", "destination": "/sender.html" }
   ]
 }
