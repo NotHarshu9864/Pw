@@ -1,0 +1,67 @@
+{
+  "playlists": [
+    {
+      "id": "crash",
+      "title": "Crashh",
+      "description": "Confindence",
+      "songs": [
+        {
+          "id": "at-peace",
+          "title": "At Peace",
+          "videoId": "uB-kUl6x1xc"
+        },
+        {
+          "id": "chill_2",
+          "title": "Perfect",
+          "videoId": "2Vv-BfVoq4g"
+        },
+        {
+          "id": "chill_3",
+          "title": "Let Me Down Slowly",
+          "videoId": "50VNCymT-Cs"
+        }
+      ]
+    },
+
+    {
+      "id": "workout_hits",
+      "title": "Workout Hits",
+      "description": "High energy motivation songs",
+      "songs": [
+        {
+          "id": "workout_1",
+          "title": "Believer",
+          "videoId": "7wtfhZwyrcc"
+        },
+        {
+          "id": "workout_2",
+          "title": "Till I Collapse",
+          "videoId": "ytQ5CYE1VZw"
+        },
+        {
+          "id": "workout_3",
+          "title": "Lose Yourself",
+          "videoId": "xFYQQPAOz7Y"
+        }
+      ]
+    },
+
+    {
+      "id": "lofi_focus",
+      "title": "Lo-Fi Focus",
+      "description": "Lo-fi beats to focus and relax",
+      "songs": [
+        {
+          "id": "lofi_1",
+          "title": "Snowfall",
+          "videoId": "LlN8MPS7KQs"
+        },
+        {
+          "id": "lofi_2",
+          "title": "Coffee",
+          "videoId": "kJ8n1d8V9mA"
+        }
+      ]
+    }
+  ]
+}
