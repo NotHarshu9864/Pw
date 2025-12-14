@@ -11,37 +11,52 @@
           "videoId": "uB-kUl6x1xc"
         },
         {
-          "id": "chill_2",
-          "title": "Perfect",
-          "videoId": "2Vv-BfVoq4g"
+          "id": "chisjdbd",
+          "title": "52 Barss",
+          "videoId": "IRAai9uRgUE"
         },
         {
-          "id": "chill_3",
-          "title": "Let Me Down Slowly",
-          "videoId": "50VNCymT-Cs"
+          "id": "chjdjd",
+          "title": "Supreme",
+          "videoId": "PBMsZUDueOc"
+        },
+       {
+          "id": "chisbdbd",
+          "title": "Balenci",
+          "videoId": "z6noDayasd4"
+        },
+       {
+          "id": "chsjdbd",
+          "title": "52 Barss",
+          "videoId": "GKsydgJwZ9k
+        },
+       {
+          "id": "chisjdd",
+          "title": "7.7 Magnitude",
+          "videoId": "esa18_CTeXQ"
         }
       ]
     },
 
     {
       "id": "workout_hits",
-      "title": "Workout Hits",
-      "description": "High energy motivation songs",
+      "title": "Love",
+      "description": "Tute Dil Naal ",
       "songs": [
         {
           "id": "workout_1",
-          "title": "Believer",
-          "videoId": "7wtfhZwyrcc"
+          "title": "Haseen",
+          "videoId": "9W-iBWY8g8U"
         },
         {
           "id": "workout_2",
-          "title": "Till I Collapse",
-          "videoId": "ytQ5CYE1VZw"
+          "title": "Pal Pal",
+          "videoId": "0C11HcI7z64"
         },
         {
           "id": "workout_3",
-          "title": "Lose Yourself",
-          "videoId": "xFYQQPAOz7Y"
+          "title": "Piche Tere",
+          "videoId": "8rEPlLkZMMQ"
         }
       ]
     },
