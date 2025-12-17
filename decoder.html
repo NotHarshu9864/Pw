@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DECODER - H A R S H</title>
+<title>M3U8 → JSON Generator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,16 +10,16 @@
 body{
     margin:0;
     min-height:100vh;
+    background:#020617;
+    font-family:system-ui,sans-serif;
+    color:#e5e7eb;
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#020617;
-    font-family:system-ui, sans-serif;
-    color:#e5e7eb;
 }
 .container{
     width:100%;
-    max-width:760px;
+    max-width:820px;
     padding:16px;
 }
 .card{
@@ -53,7 +53,7 @@ input[type=file]{
 }
 button{
     width:100%;
-    margin-top:14px;
+    margin-top:12px;
     padding:12px;
     border-radius:12px;
     border:none;
@@ -63,6 +63,14 @@ button{
     background:linear-gradient(135deg,#22d3ee,#38bdf8);
     color:#020617;
 }
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+.actions button{
+    flex:1;
+}
 .output{
     margin-top:18px;
     border:1px solid #1e293b;
@@ -71,10 +79,10 @@ button{
 }
 .output-header{
     display:flex;
-    flex-wrap:wrap;
-    gap:8px;
     justify-content:space-between;
     align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
     margin-bottom:8px;
 }
 .label{
@@ -82,24 +90,20 @@ button{
     font-size:13px;
     font-weight:600;
 }
-.actions button{
-    width:auto;
-    padding:6px 12px;
-    font-size:12px;
+.small-btn{
     background:none;
     border:1px solid #22d3ee;
     color:#22d3ee;
+    padding:6px 12px;
+    font-size:12px;
     border-radius:999px;
+    cursor:pointer;
 }
 pre{
     white-space:pre-wrap;
     word-break:break-all;
     font-size:13px;
     margin:0;
-}
-@media(max-width:480px){
-    h1{font-size:1.15rem}
-    textarea{min-height:130px}
 }
 </style>
 </head>
@@ -108,20 +112,22 @@ pre{
 
 <div class="container">
 <div class="card">
-<h1>M3U8 & Notes Decoder</h1>
+<h1>M3U8 & Notes → JSON Generator</h1>
 
 <textarea id="input" placeholder="Paste chapter name and encoded URLs here..."></textarea>
-
 <input type="file" accept=".txt" onchange="loadFile(this)">
 
-<button onclick="decode()">Decode</button>
+<div class="actions">
+    <button onclick="decodeText()">Decode Text</button>
+    <button onclick="generateJSON()">Generate JSON</button>
+</div>
 
 <div class="output">
     <div class="output-header">
-        <span class="label">Decoded Output</span>
-        <div class="actions">
-            <button onclick="copyText()">Copy</button>
-            <button onclick="downloadFile()">Download</button>
+        <span class="label">Output</span>
+        <div>
+            <button class="small-btn" onclick="copyOutput()">Copy</button>
+            <button class="small-btn" onclick="downloadFile()">Download</button>
         </div>
     </div>
     <pre id="output">—</pre>
@@ -130,51 +136,85 @@ pre{
 </div>
 
 <script>
-function cleanPlayerPrefix(url){
-    let decoded = decodeURIComponent(url.trim());
-
-    decoded = decoded.replace(
+function cleanPlayer(url){
+    let d = decodeURIComponent(url.trim());
+    return d.replace(
         /^https?:\/\/[^\/]+\/play\/[^\/]+\/https?:\/\//,
         "https://"
     );
-
-    return decoded;
 }
 
 function extractNotes(url){
-    let match = url.match(/notesLink=([^&]+)/);
-    return match ? decodeURIComponent(match[1]) : null;
+    let m = url.match(/notesLink=([^&]+)/);
+    return m ? decodeURIComponent(m[1]) : "";
 }
 
-function decode(){
-    const lines = document.getElementById("input").value
-        .split("\n")
-        .map(l => l.trim())
-        .filter(Boolean);
-
-    let output = [];
-    let currentChapter = "";
+function decodeText(){
+    const lines = getLines();
+    let out = [];
+    let chapter = "";
 
     lines.forEach(line=>{
         if(!line.startsWith("http")){
-            currentChapter = line;
-            output.push("\n" + currentChapter);
+            chapter = line;
+            out.push("\n" + chapter);
         } else {
-            const cleaned = cleanPlayerPrefix(line);
+            const play = cleanPlayer(line);
             const notes = extractNotes(line);
 
-            if(cleaned.includes(".m3u8"))
-                output.push("M3U8: " + cleaned);
-
-            if(notes)
-                output.push("Notes: " + notes);
+            if(play.includes(".m3u8")) out.push("M3U8: " + play);
+            if(notes) out.push("Notes: " + notes);
         }
     });
 
-    document.getElementById("output").textContent = output.join("\n");
+    document.getElementById("output").textContent = out.join("\n");
 }
 
-function copyText(){
+function generateJSON(){
+    const lines = getLines();
+    let chapters = [];
+    let current = null;
+    let chIndex = 1, lecIndex = 1;
+
+    lines.forEach(line=>{
+        if(!line.startsWith("http")){
+            current = {
+                id: "ch" + chIndex++,
+                title: line,
+                videos: []
+            };
+            chapters.push(current);
+            lecIndex = 1;
+        } else if(current){
+            const play = cleanPlayer(line);
+            const notes = extractNotes(line);
+
+            current.videos.push({
+                id: "lec" + lecIndex++,
+                title: "Lecture " + (lecIndex - 1),
+                play: play,
+                notes: notes || ""
+            });
+        }
+    });
+
+    const json = {
+        subject: "",
+        chapters: chapters
+    };
+
+    document.getElementById("output").textContent =
+        JSON.stringify(json, null, 2);
+}
+
+function getLines(){
+    return document.getElementById("input").value
+        .split("\n")
+        .map(l=>l.trim())
+        .filter(Boolean);
+}
+
+function copyOutput(){
     navigator.clipboard.writeText(
         document.getElementById("output").innerText
     );
@@ -182,10 +222,10 @@ function copyText(){
 
 function downloadFile(){
     const text = document.getElementById("output").innerText;
-    const blob = new Blob([text], {type:"text/plain"});
+    const blob = new Blob([text], {type:"application/json"});
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "decoded_urls.txt";
+    a.download = "lectures.json";
     a.click();
 }
 
