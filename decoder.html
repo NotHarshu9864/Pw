@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>M3U8 Chapter Decoder</title>
+<title>DECODER - H A R S H</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box}
 body{
     margin:0;
     min-height:100vh;
@@ -17,22 +18,25 @@ body{
     color:#e5e7eb;
 }
 .container{
-    width:95%;
-    max-width:750px;
+    width:100%;
+    max-width:760px;
+    padding:16px;
+}
+.card{
     background:#020617;
     border-radius:18px;
-    padding:22px;
+    padding:18px;
     box-shadow:0 0 40px rgba(34,211,238,.25);
 }
 h1{
     text-align:center;
     color:#22d3ee;
-    font-size:1.4rem;
-    margin-bottom:16px;
+    font-size:1.3rem;
+    margin-bottom:14px;
 }
 textarea{
     width:100%;
-    min-height:140px;
+    min-height:150px;
     background:#020617;
     border:1px solid #1e293b;
     border-radius:12px;
@@ -41,8 +45,10 @@ textarea{
     font-size:14px;
     resize:vertical;
 }
+textarea::placeholder{color:#64748b}
 input[type=file]{
     margin-top:10px;
+    width:100%;
     color:#94a3b8;
 }
 button{
@@ -57,14 +63,16 @@ button{
     background:linear-gradient(135deg,#22d3ee,#38bdf8);
     color:#020617;
 }
-.output-box{
-    margin-top:20px;
+.output{
+    margin-top:18px;
     border:1px solid #1e293b;
     border-radius:14px;
     padding:12px;
 }
 .output-header{
     display:flex;
+    flex-wrap:wrap;
+    gap:8px;
     justify-content:space-between;
     align-items:center;
     margin-bottom:8px;
@@ -74,14 +82,14 @@ button{
     font-size:13px;
     font-weight:600;
 }
-.copy-btn{
+.actions button{
+    width:auto;
+    padding:6px 12px;
+    font-size:12px;
     background:none;
     border:1px solid #22d3ee;
     color:#22d3ee;
-    padding:4px 10px;
-    font-size:12px;
     border-radius:999px;
-    cursor:pointer;
 }
 pre{
     white-space:pre-wrap;
@@ -89,37 +97,42 @@ pre{
     font-size:13px;
     margin:0;
 }
+@media(max-width:480px){
+    h1{font-size:1.15rem}
+    textarea{min-height:130px}
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h1>M3U8 Chapter Decoder</h1>
+<div class="card">
+<h1>M3U8 & Notes Decoder</h1>
 
-<textarea id="input" placeholder="Paste chapter name and URLs here..."></textarea>
+<textarea id="input" placeholder="Paste chapter name and encoded URLs here..."></textarea>
 
 <input type="file" accept=".txt" onchange="loadFile(this)">
 
 <button onclick="decode()">Decode</button>
 
-<div class="output-box">
+<div class="output">
     <div class="output-header">
         <span class="label">Decoded Output</span>
-        <div>
-            <button class="copy-btn" onclick="copyText()">Copy</button>
-            <button class="copy-btn" onclick="downloadFile()">Download</button>
+        <div class="actions">
+            <button onclick="copyText()">Copy</button>
+            <button onclick="downloadFile()">Download</button>
         </div>
     </div>
     <pre id="output">—</pre>
 </div>
 </div>
+</div>
 
 <script>
-function cleanURL(url){
+function cleanPlayerPrefix(url){
     let decoded = decodeURIComponent(url.trim());
 
-    // Remove known player prefixes
     decoded = decoded.replace(
         /^https?:\/\/[^\/]+\/play\/[^\/]+\/https?:\/\//,
         "https://"
@@ -128,26 +141,37 @@ function cleanURL(url){
     return decoded;
 }
 
+function extractNotes(url){
+    let match = url.match(/notesLink=([^&]+)/);
+    return match ? decodeURIComponent(match[1]) : null;
+}
+
 function decode(){
     const lines = document.getElementById("input").value
         .split("\n")
         .map(l => l.trim())
         .filter(Boolean);
 
-    let result = [];
+    let output = [];
     let currentChapter = "";
 
     lines.forEach(line=>{
-        if(line.startsWith("http")){
-            const clean = cleanURL(line);
-            result.push(clean);
-        } else {
+        if(!line.startsWith("http")){
             currentChapter = line;
-            result.push("\n" + currentChapter);
+            output.push("\n" + currentChapter);
+        } else {
+            const cleaned = cleanPlayerPrefix(line);
+            const notes = extractNotes(line);
+
+            if(cleaned.includes(".m3u8"))
+                output.push("M3U8: " + cleaned);
+
+            if(notes)
+                output.push("Notes: " + notes);
         }
     });
 
-    document.getElementById("output").textContent = result.join("\n");
+    document.getElementById("output").textContent = output.join("\n");
 }
 
 function copyText(){
