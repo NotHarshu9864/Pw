@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Advanced Secure Player</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<title>Secure Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root {
-  --bg:#0a0d18;
-  --panel:#121735;
+:root{
+  --bg:#0b1020;
+  --panel:#141a3a;
   --accent:#4f7cff;
-  --text:#eaeaff;
+  --text:#eef1ff;
 }
 
-* {
-  margin:0;
-  padding:0;
+*{
   box-sizing:border-box;
   user-select:none;
 }
 
-body {
+body{
+  margin:0;
   min-height:100vh;
-  background:radial-gradient(1200px 600px at 50% -10%, #1b2150, var(--bg));
   display:flex;
-  justify-content:center;
   align-items:center;
-  font-family:system-ui, sans-serif;
+  justify-content:center;
+  background:radial-gradient(1200px 600px at 50% -10%, #1a2150, var(--bg));
+  font-family:system-ui,sans-serif;
   color:var(--text);
 }
 
-.player {
+.player{
   width:min(100%,960px);
   background:var(--panel);
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
   box-shadow:0 30px 80px rgba(0,0,0,.6);
 }
 
-.header {
-  padding:12px 16px;
-  background:rgba(255,255,255,.04);
+.header{
+  padding:14px 18px;
   font-weight:600;
+  background:rgba(255,255,255,.05);
 }
 
-.video-box {
+.video-box{
   position:relative;
   aspect-ratio:16/9;
   background:#000;
 }
 
-iframe {
+iframe{
   width:100%;
   height:100%;
   border:0;
-  pointer-events:none; /* 🔒 block native controls */
+  pointer-events:none; /* hide native controls */
 }
 
-.overlay {
+.overlay{
   position:absolute;
   inset:0;
   display:flex;
@@ -66,38 +65,37 @@ iframe {
   background:rgba(0,0,0,.35);
 }
 
-.play-btn {
-  width:70px;
-  height:70px;
+.play-btn{
+  width:72px;
+  height:72px;
   border-radius:50%;
   background:var(--accent);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:26px;
+  font-size:28px;
   cursor:pointer;
 }
 
-.controls {
+.controls{
   display:flex;
   gap:12px;
   padding:12px;
   background:rgba(255,255,255,.03);
 }
 
-.controls button {
+.controls button{
   flex:1;
   padding:10px;
   border:none;
   border-radius:10px;
-  background:#1c2352;
+  background:#1c2455;
   color:var(--text);
   font-weight:600;
   cursor:pointer;
 }
-
-.controls button:hover {
-  background:#25307a;
+.controls button:hover{
+  background:#26327a;
 }
 </style>
 </head>
@@ -110,8 +108,15 @@ iframe {
     <iframe
       id="frame"
       src="https://minochinos.com/embed/wt6huo488jvh"
-      allow="autoplay; fullscreen"
-      sandbox="allow-scripts allow-same-origin allow-presentation"
+      allow="autoplay; fullscreen; picture-in-picture"
+      sandbox="
+        allow-scripts
+        allow-same-origin
+        allow-forms
+        allow-popups
+        allow-presentation
+        allow-top-navigation-by-user-activation
+      "
       referrerpolicy="no-referrer">
     </iframe>
 
@@ -121,7 +126,7 @@ iframe {
   </div>
 
   <div class="controls">
-    <button id="toggle">Enable / Disable Video</button>
+    <button id="toggle">Enable / Disable</button>
     <button id="reload">Reload</button>
     <button id="fs">Fullscreen</button>
   </div>
@@ -138,7 +143,7 @@ document.addEventListener("keydown", e => {
   ) e.preventDefault();
 });
 
-/* PLAYER LOGIC */
+/* PLAYER CONTROL SHELL */
 const frame = document.getElementById("frame");
 const overlay = document.getElementById("overlay");
 const playBtn = document.getElementById("play");
@@ -150,7 +155,7 @@ let enabled = false;
 
 playBtn.onclick = () => {
   enabled = true;
-  frame.style.pointerEvents = "auto"; // allow interaction
+  frame.style.pointerEvents = "auto";
   overlay.style.display = "none";
 };
 
@@ -168,7 +173,7 @@ fsBtn.onclick = () => {
   document.querySelector(".video-box").requestFullscreen();
 };
 
-/* Kill window.open attempts */
+/* Block window.open abuse (best effort) */
 window.open = () => null;
 </script>
 </body>
