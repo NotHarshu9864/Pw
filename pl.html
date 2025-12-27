@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Secure Player</title>
+<title>Secure Stream Player</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -109,14 +109,6 @@ iframe{
       id="frame"
       src="https://minochinos.com/embed/wt6huo488jvh"
       allow="autoplay; fullscreen; picture-in-picture"
-      sandbox="
-        allow-scripts
-        allow-same-origin
-        allow-forms
-        allow-popups
-        allow-presentation
-        allow-top-navigation-by-user-activation
-      "
       referrerpolicy="no-referrer">
     </iframe>
 
@@ -173,7 +165,7 @@ fsBtn.onclick = () => {
   document.querySelector(".video-box").requestFullscreen();
 };
 
-/* Block window.open abuse (best effort) */
+/* Best-effort popup blocking */
 window.open = () => null;
 </script>
 </body>
