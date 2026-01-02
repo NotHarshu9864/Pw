@@ -1,173 +1,154 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topic Contents - AS MULTIVERSE</title>
+    <title>AS MULTIVERSE - Unlock the Universe of Apps</title>
+
+    <link rel="icon" href="https://i.postimg.cc/CMHx2j5f/20231013_112419.jpg" type="image/jpeg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- FETCHED FROM ASMULTIVERSE -->
     <link rel="stylesheet" href="https://asmultiverse.com/css/style.css">
-    <link rel="stylesheet" href="https://asmultiverse.com/css/contents.css">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1761832161109324" crossorigin="anonymous"></script>
+
+    <script src="https://asmultiverse.com/js/config.js"></script>
+
+    <script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1761832161109324"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
+
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="splash-bg-shape splash-shape-1"></div>
+        <div class="splash-bg-shape splash-shape-2"></div>
+        <div class="splash-bg-shape splash-shape-3"></div>
+
+        <div class="splash-dots splash-dots-tl"></div>
+        <div class="splash-dots splash-dots-br"></div>
+
+        <div class="splash-card">
+            <div class="splash-card-inner">
+                <div class="splash-logo-section">
+                    <div class="splash-logo-wrapper">
+                        <img src="https://i.postimg.cc/CMHx2j5f/20231013_112419.jpg" class="splash-logo-img">
+                    </div>
+                </div>
+
+                <div class="splash-brand-section">
+                    <h1 class="splash-brand-name">
+                        <span class="brand-text">AS</span>
+                        <span class="brand-text">MULTIVERSE</span>
+                    </h1>
+                    <p class="splash-tagline-text">Unlock the Universe of Apps</p>
+                </div>
+            </div>
+
+            <div class="splash-progress-section">
+                <div class="splash-progress-bar">
+                    <div class="splash-progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="splash-footer-section">
+                <p class="splash-powered-text">
+                    Powered by <span class="splash-dev">MadXABhi 🚩</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
-            <button class="drawer-toggle" id="drawer-toggle" onclick="toggleDrawer()">
+            <button class="drawer-toggle" onclick="toggleDrawer()">
                 <i class="fas fa-bars"></i>
             </button>
+
             <div class="logo">
-                <img src="https://i.postimg.cc/CMHx2j5f/20231013_112419.jpg" alt="AS MULTIVERSE" class="logo-icon">
-                <span class="logo-text">QUICKTOPPERS</span>
+                <img src="https://i.postimg.cc/CMHx2j5f/20231013_112419.jpg" class="logo-icon">
+                <span class="logo-text">AS MULTIVERSE</span>
             </div>
-            <div class="menu-toggle" id="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="/#home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/#apps"><i class="fas fa-mobile-alt"></i> Apps</a></li>
-                <li><a href="/#about"><i class="fas fa-info-circle"></i> About</a></li>
+
+            <ul class="nav-menu">
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#apps"><i class="fas fa-mobile-alt"></i> Apps</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
                 <li><a href="#contact"><i class="fas fa-comments"></i> Contact</a></li>
-                <li><a href="https://www.whatsapp.com/channel/0029VaMatol8fews0k9JA31c" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Join Channel</a></li>
+                <li>
+                    <a href="https://www.whatsapp.com/channel/0029VaMatol8fews0k9JA31c" target="_blank" class="whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Join Channel
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
-    <div class="drawer" id="drawer">
-        <div class="drawer-header">
-            <div class="drawer-logo">
-                <img src="https://i.postimg.cc/52pvKxvy/20240401-022132.jpg" alt="AS MULTIVERSE">
-                <span>AS MULTIVERSE</span>
-            </div>
-            <button class="drawer-close" onclick="closeDrawer()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="drawer-content">
-            <nav class="drawer-nav">
-                <a href="/#home" class="drawer-link" onclick="closeDrawer()">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="/#apps" class="drawer-link" onclick="closeDrawer()">
-                    <i class="fas fa-mobile-alt"></i>
-                    <span>Apps</span>
-                </a>
-                <a href="/#about" class="drawer-link" onclick="closeDrawer()">
-                    <i class="fas fa-info-circle"></i>
-                    <span>About</span>
-                </a>
-                <a href="/#contact" class="drawer-link" onclick="closeDrawer()">
-                    <i class="fas fa-comments"></i>
-                    <span>Contact</span>
-                </a>
-            </nav>
-            <div class="drawer-divider"></div>
-            <div class="drawer-social">
-                <h3>Connect With Us</h3>
-                <div class="drawer-social-links">
-                    <a href="https://www.whatsapp.com/channel/0029VaMatol8fews0k9JA31c" target="_blank" class="drawer-social-link">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp</span>
-                    </a>
-                    <a href="https://t.me/MadX_ABhi" target="_blank" class="drawer-social-link">
-                        <i class="fab fa-telegram"></i>
-                        <span>Telegram</span>
-                    </a>
-                    <a href="https://www.instagram.com/as_multiverse.official" target="_blank" class="drawer-social-link">
-                        <i class="fab fa-instagram"></i>
-                        <span>Instagram</span>
-                    </a>
-                    <a href="https://youtube.com/@AS-Multiverse" target="_blank" class="drawer-social-link">
-                        <i class="fab fa-youtube"></i>
-                        <span>YouTube</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="drawer-footer">
-            <p>© 2022-25 AS MULTIVERSE</p>
-            <p>Developer: <strong>MadXAbhi</strong></p>
-        </div>
-    </div>
-
-    <section class="contents-section">
-        <div class="container">
-            <div id="topic-contents-content">
-                <div class="loading">
-                    <div class="loading-content">
-                        <div class="loading-icon">
-                            <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">
-                            <h3>Loading Content</h3>
-                            <p class="loading-dots">Preparing materials</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2 class="hero-title">Where Education, Innovation & Technology Unite</h2>
+            <p class="hero-subtitle">Learn smarter. Access faster. Experience more.</p>
         </div>
     </section>
 
-    <div class="glowing-divider" style="margin-top: 3rem;"></div>
+    <!-- APPS -->
+    <section class="apps-section" id="apps">
+        <div class="container">
+            <h2 class="section-title">My Apps Collection</h2>
+            <p class="section-subtitle">Discover our premium modified Applications for Freeeee</p>
 
+            <div id="loading" class="loading">
+                <div class="loading-content">
+                    <div class="loading-spinner"></div>
+                    <p>Loading Apps...</p>
+                </div>
+            </div>
+
+            <div id="apps-grid" class="apps-grid"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Developer</h2>
+            <p class="intro-text">Hey, I'm <strong>MadXABhi</strong> – Solo Developer</p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <div class="contact-content">
-                <h2>Get In Touch</h2>
-                <p>Join our community and stay updated with the latest releases</p>
-                <div class="contact-links">
-                    <a href="https://www.whatsapp.com/channel/0029VaMatol8fews0k9JA31c" class="contact-link" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp Channel</span>
-                    </a>
-                    <a href="https://t.me/MadX_ABhi" class="contact-link" target="_blank">
-                        <i class="fab fa-telegram"></i>
-                        <span>Telegram Channel</span>
-                    </a>
-                    <a href="https://www.instagram.com/as_multiverse.official" class="contact-link" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                        <span>Instagram</span>
-                    </a>
-                    <a href="https://youtube.com/@AS-Multiverse" target="_blank">
-                        <i class="fab fa-youtube"></i>
-                        <span>YouTube</span>
-                    </a>
-                </div>
+            <h2>Get In Touch</h2>
+
+            <div class="contact-links">
+                <a href="https://t.me/MadX_ABhi" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="https://www.instagram.com/as_multiverse.official" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="https://youtube.com/@AS-Multiverse" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
             </div>
         </div>
     </section>
 
-    <div class="glowing-divider"></div>
-
+    <!-- FOOTER -->
     <footer class="footer">
-        <div class="footer-content">
-            <span class="footer-icon">🚀</span>
-            <p>© AS MULTIVERSE | 2022-25 | Developer: <span class="developer">MadXAbhi</span></p>
-        </div>
+        <p>© AS MULTIVERSE 2022–25 | Developer: MadXABhi</p>
     </footer>
 
-    <button id="scrollToTop" class="scroll-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- FETCHED FROM ASMULTIVERSE -->
+    <script src="https://asmultiverse.com/js/script.js"></script>
 
-    <script src="https://asmultiverse.com/js/config.js"></script>
-    <script src="https://asmultiverse.com/js/shared-utils.js"></script>
-    <script src="https://asmultiverse.com/js/topic-contents.js"></script>
-    <script>
-        window.addEventListener('scroll', function() {
-            const scrollBtn = document.getElementById('scrollToTop');
-            if (window.pageYOffset > 300) {
-                scrollBtn.classList.add('show');
-            } else {
-                scrollBtn.classList.remove('show');
-            }
-        });
-    </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"6e2f5ac2d4c14d3dba239dee8fdc4fec","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+    <script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"6e2f5ac2d4c14d3dba239dee8fdc4fec"}'
+        crossorigin="anonymous"></script>
+
 </body>
 </html>
